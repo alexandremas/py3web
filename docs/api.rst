@@ -41,7 +41,7 @@ The module defines several functions, constants, and an exception.
 Routing
 -------------------
 
-Bottle maintains a stack of :class:`Bottle` instances (see :func:`app` and :class:`AppStack`) and uses the top of the stack as a *default application* for some of the module-level functions and decorators.
+py3web maintains a stack of :class:`py3web` instances (see :func:`app` and :class:`AppStack`) and uses the top of the stack as a *default application* for some of the module-level functions and decorators.
 
 
 .. function:: route(path, method='GET', callback=None, **options)
@@ -50,12 +50,12 @@ Bottle maintains a stack of :class:`Bottle` instances (see :func:`app` and :clas
               put(...)
               delete(...)
 
-   Decorator to install a route to the current default application. See :meth:`Bottle.route` for details.
+   Decorator to install a route to the current default application. See :meth:`py3web.route` for details.
 
 
 .. function:: error(...)
 
-   Decorator to install an error handler to the current default application. See :meth:`Bottle.error` for details.
+   Decorator to install an error handler to the current default application. See :meth:`py3web.error` for details.
 
 
 WSGI and HTTP Utilities
@@ -107,15 +107,15 @@ Data Structures
 Exceptions
 ---------------
 
-.. autoexception:: BottleException
+.. autoexception:: py3webException
    :members:
 
 
 
-The :class:`Bottle` Class
+The :class:`py3web` Class
 =========================
 
-.. autoclass:: Bottle
+.. autoclass:: py3web
    :members:
 
 .. autoclass:: Route

@@ -5,17 +5,17 @@ Configuration (DRAFT)
 .. currentmodule:: py3web
 
 .. warning::
-    This is a draft for a new API. `Tell us <mailto:py3webpy@googlegroups.com>`_ what you think.
+    This is a draft for a new API. `Tell us <mailto:alexandre@hipercenter.com>`_ what you think.
 
-Bottle applications can store their configuration in :attr:`Bottle.config`, a dict-like object and central place for application specific settings. This dictionary controls many aspects of the framework, tells (newer) plugins what to do, and can be used to store your own configuration as well.
+py3web applications can store their configuration in :attr:`py3web.config`, a dict-like object and central place for application specific settings. This dictionary controls many aspects of the framework, tells (newer) plugins what to do, and can be used to store your own configuration as well.
 
 Configuration Basics
 ====================
 
-The :attr:`Bottle.config` object behaves a lot like an ordinary dictionary. All the common dict methods work as expected. Let us start with some examples::
+The :attr:`py3web.config` object behaves a lot like an ordinary dictionary. All the common dict methods work as expected. Let us start with some examples::
 
     import py3web
-    app = py3web.default_app()             # or py3web.Bottle() if you prefer
+    app = py3web.default_app()             # or py3web.py3web() if you prefer
 
     app.config['autojson']    = False      # Turns off the "autojson" feature
     app.config['sqlite.db']   = ':memory:' # Tells the sqlite plugin which db to use
@@ -54,7 +54,7 @@ To make life easier, plugins and applications should follow some simple rules wh
 
 - All keys should be lowercase strings and follow the rules for python identifiers (no special characters but the underscore).
 - Namespaces are separated by dots (e.g. ``namespace.field`` or ``namespace.subnamespace.field``).
-- Bottle uses the root namespace for its own configuration. Plugins should store all their variables in their own namespace (e.g. ``sqlite.db`` or ``werkzeug.use_debugger``).
+- py3web uses the root namespace for its own configuration. Plugins should store all their variables in their own namespace (e.g. ``sqlite.db`` or ``werkzeug.use_debugger``).
 - Your own application should use a separate namespace (e.g. ``myapp.*``).
 
 
@@ -110,7 +110,7 @@ Listening to configuration changes
 
 .. versionadded 0.12
 
-The ``config`` hook on the application object is triggered each time a value in :attr:`Bottle.config` is changed. This hook can be used to react on configuration changes at runtime, for example reconnect to a new database, change the debug settings on a background service or resize worker thread pools. The hook callback receives two arguments (key, new_value) and is called before the value is actually changed in the dictionary. Raising an exception from a hook callback cancels the change and the old value is preserved.
+The ``config`` hook on the application object is triggered each time a value in :attr:`py3web.config` is changed. This hook can be used to react on configuration changes at runtime, for example reconnect to a new database, change the debug settings on a background service or resize worker thread pools. The hook callback receives two arguments (key, new_value) and is called before the value is actually changed in the dictionary. Raising an exception from a hook callback cancels the change and the old value is preserved.
 
 ::
 

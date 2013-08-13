@@ -8,9 +8,9 @@ Contact
    :alt: Photo
    :class: floatright
 
-Hi, I'm *Marcel Hellkamp* (aka *defnull*), author of Bottle and the guy behind this website. I'm 27 years old and studying computer science at the Georg-August-University in Göttingen, Germany. Python is my favorite language, but I also code in ruby and JavaScript a lot. Watch me on `twitter <http://twitter.com/py3webpy>`_ or visit my profile at `GitHub <http://github.com/defnull>`_ to get in contact. A `mailinglist <http://groups.google.de/group/py3webpy>`_ is open for Bottle related questions, too.
+Hi, I'm *Marcel Hellkamp* (aka *defnull*), author of py3web and the guy behind this website. I'm 27 years old and studying computer science at the Georg-August-University in Göttingen, Germany. Python is my favorite language, but I also code in ruby and JavaScript a lot. Watch me on `twitter <http://twitter.com/py3webpy>`_ or visit my profile at `GitHub <http://github.com/defnull>`_ to get in contact. A `mailinglist <http://groups.google.de/group/py3webpy>`_ is open for py3web related questions, too.
 
-.. rubric:: About Bottle
+.. rubric:: About py3web
 
 This is my first open source project so far. It started and a small experiment but soon got so much positive feedback I decided to make something real out of it. Here it is.
 

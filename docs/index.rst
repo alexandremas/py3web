@@ -16,10 +16,10 @@
 .. _PyPI: http://pypi.python.org/pypi/py3web
 
 ============================
-Bottle: Python Web Framework
+py3web: Python Web Framework
 ============================
 
-Bottle is a fast, simple and lightweight WSGI_ micro web-framework for Python_. It is distributed as a single file module and has no dependencies other than the `Python Standard Library <http://docs.python.org/library/>`_. 
+py3web is a fast, simple and lightweight WSGI_ micro web-framework for Python_. It is distributed as a single file module and has no dependencies other than the `Python Standard Library <http://docs.python.org/library/>`_. 
 
 
 * **Routing:** Requests to function-call mapping with support for clean and  dynamic URLs.
@@ -47,7 +47,7 @@ Run this script or paste it into a Python console, then point your browser to `<
 
 .. __: https://github.com/defnull/py3web/raw/master/py3web.py
 
-Install the latest stable release via PyPI_ (``easy_install -U py3web``) or download `py3web.py`__ (unstable) into your project directory. There are no hard [1]_ dependencies other than the Python standard library. Bottle runs with **Python 2.5+ and 3.x**.
+Install the latest stable release via PyPI_ (``easy_install -U py3web``) or download `py3web.py`__ (unstable) into your project directory. There are no hard [1]_ dependencies other than the Python standard library. py3web runs with **Python 2.5+ and 3.x**.
 
 User's Guide
 ===============
@@ -103,7 +103,7 @@ Code and documentation are available according to the MIT License:
 .. include:: ../LICENSE
   :literal:
 
-The Bottle logo however is *NOT* covered by that license. It is allowed to
+The py3web logo however is *NOT* covered by that license. It is allowed to
 use the logo as a link to the py3web homepage or in direct context with
 the unmodified library. In all other cases please ask first.
 

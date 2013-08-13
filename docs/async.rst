@@ -1,7 +1,7 @@
 Primer to Asynchronous Applications
 ===================================
 
-Asynchronous design patterns don't mix well with the synchronous nature of `WSGI <http://www.python.org/dev/peps/pep-3333/>`_. This is why most asynchronous frameworks (tornado, twisted, ...) implement a specialized API to expose their asynchronous features. Bottle is a WSGI framework and shares the synchronous nature of WSGI, but thanks to the awesome `gevent project <http://www.gevent.org/>`_, it is still possible to write asynchronous applications with py3web. This article documents the usage of Bottle with Asynchronous WSGI.
+Asynchronous design patterns don't mix well with the synchronous nature of `WSGI <http://www.python.org/dev/peps/pep-3333/>`_. This is why most asynchronous frameworks (tornado, twisted, ...) implement a specialized API to expose their asynchronous features. py3web is a WSGI framework and shares the synchronous nature of WSGI, but thanks to the awesome `gevent project <http://www.gevent.org/>`_, it is still possible to write asynchronous applications with py3web. This article documents the usage of py3web with Asynchronous WSGI.
 
 The Limits of Synchronous WSGI
 -------------------------------
@@ -84,8 +84,8 @@ Lets forget about the low-level details for a while and speak about WebSockets. 
 
 Thankfully the `gevent-websocket <http://pypi.python.org/pypi/gevent-websocket/>`_ package does all the hard work for us. Here is a simple WebSocket endpoint that receives messages and just sends them back to the client::
 
-    from py3web import request, Bottle, abort
-    app = Bottle()
+    from py3web import request, py3web, abort
+    app = py3web()
 
     @app.route('/websocket')
     def handle_websocket():

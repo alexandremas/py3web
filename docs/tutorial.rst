@@ -23,14 +23,14 @@
 Tutorial
 ========
 
-This tutorial introduces you to the concepts and features of the Bottle web framework and covers basic and advanced topics alike. You can read it from start to end, or use it as a reference later on. The automatically generated :doc:`api` may be interesting for you, too. It covers more details, but explains less than this tutorial. Solutions for the most common questions can be found in our :doc:`recipes` collection or on the :doc:`faq` page. If you need any help, join our `mailing list <mailto:py3webpy@googlegroups.com>`_ or visit us in our `IRC channel <http://webchat.freenode.net/?channels=py3webpy>`_.
+This tutorial introduces you to the concepts and features of the py3web web framework and covers basic and advanced topics alike. You can read it from start to end, or use it as a reference later on. The automatically generated :doc:`api` may be interesting for you, too. It covers more details, but explains less than this tutorial. Solutions for the most common questions can be found in our :doc:`recipes` collection or on the :doc:`faq` page. If you need any help, join our `mailing list <mailto:py3webpy@googlegroups.com>`_ or visit us in our `IRC channel <http://webchat.freenode.net/?channels=py3webpy>`_.
 
 .. _installation:
 
 Installation
 ==============================================================================
 
-Bottle does not depend on any external libraries. You can just download `py3web.py </py3web.py>`_ into your project directory and start coding:
+py3web does not depend on any external libraries. You can just download `py3web.py </py3web.py>`_ into your project directory and start coding:
 
 .. code-block:: bash
 
@@ -66,7 +66,7 @@ Or, if virtualenv is not installed on your system:
 Quickstart: "Hello World"
 ==============================================================================
 
-This tutorial assumes you have Bottle either :ref:`installed <installation>` or copied into your project directory. Let's start with a very basic "Hello World" example::
+This tutorial assumes you have py3web either :ref:`installed <installation>` or copied into your project directory. Let's start with a very basic "Hello World" example::
 
     from py3web import route, run
 
@@ -84,18 +84,18 @@ The :func:`run` call in the last line starts a built-in development server. It r
 
 The :ref:`tutorial-debugging` is very helpful during early development, but should be switched off for public applications. Keep that in mind.
 
-Of course this is a very simple example, but it shows the basic concept of how applications are built with Bottle. Continue reading and you'll see what else is possible.
+Of course this is a very simple example, but it shows the basic concept of how applications are built with py3web. Continue reading and you'll see what else is possible.
 
 .. _tutorial-default:
 
 The Default Application
 ------------------------------------------------------------------------------
 
-For the sake of simplicity, most examples in this tutorial use a module-level :func:`route` decorator to define routes. This adds routes to a global "default application", an instance of :class:`Bottle` that is automatically created the first time you call :func:`route`. Several other module-level decorators and functions relate to this default application, but if you prefer a more object oriented approach and don't mind the extra typing, you can create a separate application object and use that instead of the global one::
+For the sake of simplicity, most examples in this tutorial use a module-level :func:`route` decorator to define routes. This adds routes to a global "default application", an instance of :class:`py3web` that is automatically created the first time you call :func:`route`. Several other module-level decorators and functions relate to this default application, but if you prefer a more object oriented approach and don't mind the extra typing, you can create a separate application object and use that instead of the global one::
 
-    from py3web import Bottle, run
+    from py3web import py3web, run
 
-    app = Bottle()
+    app = py3web()
 
     @app.route('/hello')
     def hello():
@@ -176,7 +176,7 @@ You can add your own filters as well. See :doc:`Routing` for details.
 
 .. versionchanged:: 0.10
 
-The new rule syntax was introduced in **Bottle 0.10** to simplify some common use cases, but the old syntax still works and you can find a lot of code examples still using it. The differences are best described by example:
+The new rule syntax was introduced in **py3web 0.10** to simplify some common use cases, but the old syntax still works and you can find a lot of code examples still using it. The differences are best described by example:
 
 =================== ====================
 Old Syntax          New Syntax
@@ -224,7 +224,7 @@ In this example the ``/login`` URL is linked to two distinct callbacks, one for 
 
 .. rubric:: Special Methods: HEAD and ANY
 
-The HEAD method is used to ask for the response identical to the one that would correspond to a GET request, but without the response body. This is useful for retrieving meta-information about a resource without having to download the entire document. Bottle handles these requests automatically by falling back to the corresponding GET route and cutting off the request body, if present. You don't have to specify any HEAD routes yourself.
+The HEAD method is used to ask for the response identical to the one that would correspond to a GET request, but without the response body. This is useful for retrieving meta-information about a resource without having to download the entire document. py3web handles these requests automatically by falling back to the corresponding GET route and cutting off the request body, if present. You don't have to specify any HEAD routes yourself.
 
 Additionally, the non-standard ANY method works as a low priority fallback: Routes that listen to ANY will match requests regardless of their HTTP method but only if no other more specific route is defined. This is helpful for *proxy-routes* that redirect requests to more specific sub-applications.
 
@@ -258,7 +258,7 @@ Be careful when specifying a relative root-path such as ``root='./static/files'`
 Error Pages
 ------------------------------------------------------------------------------
 
-If anything goes wrong, Bottle displays an informative but fairly plain error page. You can override the default for a specific HTTP status code with the :func:`error` decorator::
+If anything goes wrong, py3web displays an informative but fairly plain error page. You can override the default for a specific HTTP status code with the :func:`error` decorator::
 
   from py3web import error
   @error(404)
@@ -281,7 +281,7 @@ Generating content
 
 In pure WSGI, the range of types you may return from your application is very limited. Applications must return an iterable yielding byte strings. You may return a string (because strings are iterable) but this causes most servers to transmit your content char by char. Unicode strings are not allowed at all. This is not very practical.
 
-Bottle is much more flexible and supports a wide range of types. It even adds a ``Content-Length`` header if possible and encodes unicode automatically, so you don't have to. What follows is a list of data types you may return from your application callbacks and a short description of how these are handled by the framework:
+py3web is much more flexible and supports a wide range of types. It even adds a ``Content-Length`` header if possible and encodes unicode automatically, so you don't have to. What follows is a list of data types you may return from your application callbacks and a short description of how these are handled by the framework:
 
 Dictionaries
     As mentioned above, Python dictionaries (or subclasses thereof) are automatically transformed into JSON strings and returned to the browser with the ``Content-Type`` header set to ``application/json``. This makes it easy to implement json-based APIs. Data formats other than json are supported too. See the :ref:`tutorial-output-filter` to learn more.
@@ -293,7 +293,7 @@ Unicode strings
     Unicode strings (or iterables yielding unicode strings) are automatically encoded with the codec specified in the ``Content-Type`` header (utf8 by default) and then treated as normal byte strings (see below).
 
 Byte strings
-    Bottle returns strings as a whole (instead of iterating over each char) and adds a ``Content-Length`` header based on the string length. Lists of byte strings are joined first. Other iterables yielding byte strings are not joined because they may grow too big to fit into memory. The ``Content-Length`` header is not set in this case.
+    py3web returns strings as a whole (instead of iterating over each char) and adds a ``Content-Length`` header based on the string length. Lists of byte strings are joined first. Other iterables yielding byte strings are not joined because they may grow too big to fit into memory. The ``Content-Length`` header is not set in this case.
 
 Instances of :exc:`HTTPError` or :exc:`HTTPResponse`
     Returning these has the same effect as when raising them as an exception. In case of an :exc:`HTTPError`, the error handler is applied. See :ref:`tutorial-errorhandling` for details.
@@ -308,7 +308,7 @@ The ordering of this list is significant. You may for example return a subclass 
 
 .. rubric:: Changing the Default Encoding
 
-Bottle uses the `charset` parameter of the ``Content-Type`` header to decide how to encode unicode strings. This header defaults to ``text/html; charset=UTF8`` and can be changed using the :attr:`Response.content_type` attribute or by setting the :attr:`Response.charset` attribute directly. (The :class:`Response` object is described in the section :ref:`tutorial-response`.)
+py3web uses the `charset` parameter of the ``Content-Type`` header to decide how to encode unicode strings. This header defaults to ``text/html; charset=UTF8`` and can be changed using the :attr:`Response.content_type` attribute or by setting the :attr:`Response.charset` attribute directly. (The :class:`Response` object is described in the section :ref:`tutorial-response`.)
 
 ::
 
@@ -449,7 +449,7 @@ If neither `expires` nor `max_age` is set, the cookie expires at the end of the 
 
 .. rubric:: Signed Cookies
 
-As mentioned above, cookies are easily forged by malicious clients. Bottle can cryptographically sign your cookies to prevent this kind of manipulation. All you have to do is to provide a signature key via the `secret` keyword argument whenever you read or set a cookie and keep that key a secret. As a result, :meth:`Request.get_cookie` will return ``None`` if the cookie is not signed or the signature keys don't match::
+As mentioned above, cookies are easily forged by malicious clients. py3web can cryptographically sign your cookies to prevent this kind of manipulation. All you have to do is to provide a signature key via the `secret` keyword argument whenever you read or set a cookie and keep that key a secret. As a result, :meth:`Request.get_cookie` will return ``None`` if the cookie is not signed or the signature keys don't match::
 
     @route('/login')
     def do_login():
@@ -469,7 +469,7 @@ As mentioned above, cookies are easily forged by malicious clients. Bottle can c
         else:
             return "You are not logged in. Access denied."
 
-In addition, Bottle automatically pickles and unpickles any data stored to signed cookies. This allows you to store any pickle-able object (not only strings) to cookies, as long as the pickled data does not exceed the 4 KB limit.
+In addition, py3web automatically pickles and unpickles any data stored to signed cookies. This allows you to store any pickle-able object (not only strings) to cookies, as long as the pickled data does not exceed the 4 KB limit.
 
 .. warning:: Signed cookies are not encrypted (the client can still see the content) and not copy-protected (the client can restore an old cookie). The main intention is to make pickling and unpickling safe and prevent manipulation, not to store secret information at client side.
 
@@ -502,7 +502,7 @@ The :data:`request` object is a subclass of :class:`BaseRequest` and has a very 
 Introducing :class:`FormsDict`
 --------------------------------------------------------------------------------
 
-Bottle uses a special type of dictionary to store form data and cookies. :class:`FormsDict` behaves like a normal dictionary, but has some additional features to make your life easier.
+py3web uses a special type of dictionary to store form data and cookies. :class:`FormsDict` behaves like a normal dictionary, but has some additional features to make your life easier.
 
 **Attribute access**: All values in the dictionary are also accessible as attributes. These virtual attributes return unicode strings, even if the value is missing or unicode decoding fails. In that case, the string is empty, but still present::
 
@@ -535,7 +535,7 @@ Bottle uses a special type of dictionary to store form data and cookies. :class:
       >>> request.query.city
       u'Göttingen'        # The same string as unicode
 
-    In **Python 3** all strings are unicode, but HTTP is a byte-based wire protocol. The server has to decode the byte strings somehow before they are passed to the application. To be on the safe side, WSGI suggests ISO-8859-1 (aka latin1), a reversible single-byte codec that can be re-encoded with a different encoding later. Bottle does that for :meth:`FormsDict.getunicode` and attribute access, but not for the dict-access methods. These return the unchanged values as provided by the server implementation, which is probably not what you want.
+    In **Python 3** all strings are unicode, but HTTP is a byte-based wire protocol. The server has to decode the byte strings somehow before they are passed to the application. To be on the safe side, WSGI suggests ISO-8859-1 (aka latin1), a reversible single-byte codec that can be re-encoded with a different encoding later. py3web does that for :meth:`FormsDict.getunicode` and attribute access, but not for the dict-access methods. These return the unchanged values as provided by the server implementation, which is probably not what you want.
 
       >>> request.query['city']
       'GÃ¶ttingen' # An utf8 string provisionally decoded as ISO-8859-1 by the server
@@ -656,7 +656,7 @@ To support file uploads, we have to change the ``<form>`` tag a bit. First, we t
       <input type="submit" value="Start upload" />
     </form>
 
-Bottle stores file uploads in :attr:`BaseRequest.files` as :class:`FileUpload` instances, along with some metadata about the upload. Let us assume you just want to save the file to disk::
+py3web stores file uploads in :attr:`BaseRequest.files` as :class:`FileUpload` instances, along with some metadata about the upload. Let us assume you just want to save the file to disk::
 
     @route('/upload', method='POST')
     def do_upload():
@@ -711,14 +711,14 @@ Each :class:`BaseRequest` instance wraps a WSGI environment dictionary. The orig
 Templates
 ================================================================================
 
-Bottle comes with a fast and powerful built-in template engine called :doc:`stpl`. To render a template you can use the :func:`template` function or the :func:`view` decorator. All you have to do is to provide the name of the template and the variables you want to pass to the template as keyword arguments. Here’s a simple example of how to render a template::
+py3web comes with a fast and powerful built-in template engine called :doc:`stpl`. To render a template you can use the :func:`template` function or the :func:`view` decorator. All you have to do is to provide the name of the template and the variables you want to pass to the template as keyword arguments. Here’s a simple example of how to render a template::
 
     @route('/hello')
     @route('/hello/<name>')
     def hello(name='World'):
         return template('hello_template', name=name)
 
-This will load the template file ``hello_template.tpl`` and render it with the ``name`` variable set. Bottle will look for templates in the ``./views/`` folder or any folder specified in the ``py3web.TEMPLATE_PATH`` list.
+This will load the template file ``hello_template.tpl`` and render it with the ``name`` variable set. py3web will look for templates in the ``./views/`` folder or any folder specified in the ``py3web.TEMPLATE_PATH`` list.
 
 The :func:`view` decorator allows you to return a dictionary with the template variables instead of calling :func:`template`::
 
@@ -760,7 +760,7 @@ Plugins
 
 .. versionadded:: 0.9
 
-Bottle's core features cover most common use-cases, but as a micro-framework it has its limits. This is where "Plugins" come into play. Plugins add missing functionality to the framework, integrate third party libraries, or just automate some repetitive work.
+py3web's core features cover most common use-cases, but as a micro-framework it has its limits. This is where "Plugins" come into play. Plugins add missing functionality to the framework, integrate third party libraries, or just automate some repetitive work.
 
 We have a growing :doc:`/plugins/index` and most plugins are designed to be portable and re-usable across applications. The chances are high that your problem has already been solved and a ready-to-use plugin exists. If not, the :doc:`/plugindev` may help you.
 
@@ -817,7 +817,7 @@ You can use a name, class or instance to :func:`uninstall` a previously installe
 Plugins can be installed and removed at any time, even at runtime while serving requests. This enables some neat tricks (installing slow debugging or profiling plugins only when needed) but should not be overused. Each time the list of plugins changes, the route cache is flushed and all plugins are re-applied.
 
 .. note::
-    The module-level :func:`install` and :func:`uninstall` functions affect the :ref:`default-app`. To manage plugins for a specific application, use the corresponding methods on the :class:`Bottle` application object.
+    The module-level :func:`install` and :func:`uninstall` functions affect the :ref:`default-app`. To manage plugins for a specific application, use the corresponding methods on the :class:`py3web` application object.
 
 
 Route-specific Installation
@@ -862,9 +862,9 @@ The ``skip`` parameter accepts a single value or a list of values. You can use a
 Plugins and Sub-Applications
 --------------------------------------------------------------------------------
 
-Most plugins are specific to the application they were installed to. Consequently, they should not affect sub-applications mounted with :meth:`Bottle.mount`. Here is an example::
+Most plugins are specific to the application they were installed to. Consequently, they should not affect sub-applications mounted with :meth:`py3web.mount`. Here is an example::
 
-    root = Bottle()
+    root = py3web()
     root.mount('/blog', apps.blog)
 
     @root.route('/contact', template='contact')
@@ -873,7 +873,7 @@ Most plugins are specific to the application they were installed to. Consequentl
 
     root.install(plugins.WTForms())
 
-Whenever you mount an application, Bottle creates a proxy-route on the main-application that forwards all requests to the sub-application. Plugins are disabled for this kind of proxy-route by default. As a result, our (fictional) `WTForms` plugin affects the ``/contact`` route, but does not affect the routes of the ``/blog`` sub-application.
+Whenever you mount an application, py3web creates a proxy-route on the main-application that forwards all requests to the sub-application. Plugins are disabled for this kind of proxy-route by default. As a result, our (fictional) `WTForms` plugin affects the ``/contact`` route, but does not affect the routes of the ``/blog`` sub-application.
 
 This behavior is intended as a sane default, but can be overridden. The following example re-activates all plugins for a specific proxy-route::
 
@@ -894,21 +894,21 @@ some tips that might help you to be more productive.
 Default Application
 --------------------------------------------------------------------------------
 
-Bottle maintains a global stack of :class:`Bottle` instances and uses the top of the stack as a default for some of the module-level functions and decorators. The :func:`route` decorator, for example, is a shortcut for calling :meth:`Bottle.route` on the default application::
+py3web maintains a global stack of :class:`py3web` instances and uses the top of the stack as a default for some of the module-level functions and decorators. The :func:`route` decorator, for example, is a shortcut for calling :meth:`py3web.route` on the default application::
 
     @route('/')
     def hello():
         return 'Hello World'
 
-This is very convenient for small applications and saves you some typing, but also means that, as soon as your module is imported, routes are installed to the global application. To avoid this kind of import side-effects, Bottle offers a second, more explicit way to build applications::
+This is very convenient for small applications and saves you some typing, but also means that, as soon as your module is imported, routes are installed to the global application. To avoid this kind of import side-effects, py3web offers a second, more explicit way to build applications::
 
-    app = Bottle()
+    app = py3web()
 
     @app.route('/')
     def hello():
         return 'Hello World'
 
-Separating the application object improves re-usability a lot, too. Other developers can safely import the ``app`` object from your module and use :meth:`Bottle.mount` to merge applications together.
+Separating the application object improves re-usability a lot, too. Other developers can safely import the ``app`` object from your module and use :meth:`py3web.mount` to merge applications together.
 
 As an alternative, you can make use of the application stack to isolate your routes while still using the convenient shortcuts::
 
@@ -943,7 +943,7 @@ During early development, the debug mode can be very helpful.
 
     py3web.debug(True)
 
-In this mode, Bottle is much more verbose and provides helpful debugging information whenever an error occurs. It also disables some optimisations that might get in your way and adds some checks that warn you about possible misconfiguration.
+In this mode, py3web is much more verbose and provides helpful debugging information whenever an error occurs. It also disables some optimisations that might get in your way and adds some checks that warn you about possible misconfiguration.
 
 Here is an incomplete list of things that change in debug mode:
 
@@ -1034,9 +1034,9 @@ Both plugins and applications are specified via import expressions. These consis
 Deployment
 ================================================================================
 
-Bottle runs on the built-in `wsgiref WSGIServer <http://docs.python.org/library/wsgiref.html#module-wsgiref.simple_server>`_  by default. This non-threading HTTP server is perfectly fine for development and early production, but may become a performance py3webneck when server load increases.
+py3web runs on the built-in `wsgiref WSGIServer <http://docs.python.org/library/wsgiref.html#module-wsgiref.simple_server>`_  by default. This non-threading HTTP server is perfectly fine for development and early production, but may become a performance py3webneck when server load increases.
 
-The easiest way to increase performance is to install a multi-threaded server library like paste_ or cherrypy_ and tell Bottle to use that instead of the single-threaded server::
+The easiest way to increase performance is to install a multi-threaded server library like paste_ or cherrypy_ and tell py3web to use that instead of the single-threaded server::
 
     py3web.run(server='paste')
 

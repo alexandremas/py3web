@@ -12,7 +12,7 @@ There are several ways to join the community and stay up to date. Here are some 
 * **Mailing list**: Join our mailing list by sending an email to `py3webpy+subscribe@googlegroups.com <mailto:py3webpy+subscribe@googlegroups.com>`_ (no google account required).
 * **Twitter**: `Follow us on Twitter <twitter.com/py3webpy>`_ or search for the `#py3webpy <https://twitter.com/#!/search/%23py3webpy>`_ tag.
 * **IRC**: Join `#py3webpy on irc.freenode.net <irc://irc.freenode.net/py3webpy>`_ or use the `web chat interface <http://webchat.freenode.net/?channels=py3webpy>`_.
-* **Google plus**: We sometimes `blog about Bottle, releases and technical stuff <https://plus.google.com/b/104025895326575643538/104025895326575643538/posts>`_ on our Google+ page.
+* **Google plus**: We sometimes `blog about py3web, releases and technical stuff <https://plus.google.com/b/104025895326575643538/104025895326575643538/posts>`_ on our Google+ page.
 
 
 Get the Sources
@@ -28,9 +28,9 @@ The py3web `development repository <https://github.com/defnull/py3web>`_ and the
 Releases and Updates
 --------------------
 
-Bottle is released at irregular intervals and distributed through `PyPI <http://pypi.python.org/pypi/py3web>`_. Release candidates and bugfix-revisions of outdated releases are only available from the git repository mentioned above. Some Linux distributions may offer packages for outdated releases, though.
+py3web is released at irregular intervals and distributed through `PyPI <http://pypi.python.org/pypi/py3web>`_. Release candidates and bugfix-revisions of outdated releases are only available from the git repository mentioned above. Some Linux distributions may offer packages for outdated releases, though.
 
-The Bottle version number splits into three parts (**major.minor.revision**). These are *not* used to promote new features but to indicate important bug-fixes and/or API changes. Critical bugs are fixed in at least the two latest minor releases and announced in all available channels (mailinglist, twitter, github). Non-critical bugs or features are not guaranteed to be backported. This may change in the future, through.
+The py3web version number splits into three parts (**major.minor.revision**). These are *not* used to promote new features but to indicate important bug-fixes and/or API changes. Critical bugs are fixed in at least the two latest minor releases and announced in all available channels (mailinglist, twitter, github). Non-critical bugs or features are not guaranteed to be backported. This may change in the future, through.
 
 Major Release (x.0)
     The major release number is increased on important milestones or updates that completely break backward compatibility. You probably have to work over your entire application to use a new release. These releases are very rare, through.

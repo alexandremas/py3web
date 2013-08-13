@@ -26,7 +26,7 @@ Release 0.11
 * Support for partial downloads (``Range`` header) in :func:`static_file`.
 * The new :class:`ResourceManager` interface helps locating files bundled with an application.
 * Added a server adapter for `waitress <http://docs.pylonsproject.org/projects/waitress/en/latest/>`_.
-* New :meth:`Bottle.merge` method to install all routes from one application into another.
+* New :meth:`py3web.merge` method to install all routes from one application into another.
 * New :attr:`BaseRequest.app` property to get the application object that handles a request.
 * Added :meth:`FormsDict.decode()` to get an all-unicode version (needed by WTForms).
 * :class:`MultiDict` and subclasses are now pickle-able.
@@ -68,9 +68,9 @@ Release 0.10
 
   * Added command line interface to load applications and start servers.
   * Introduced a :class:`ConfigDict` that makes accessing configuration a lot easier (attribute access and auto-expanding namespaces).
-  * Added support for raw WSGI applications to :meth:`Bottle.mount`.
-  * :meth:`Bottle.mount` parameter order changed.
-  * :meth:`Bottle.route` now accpets an import string for the ``callback`` parameter.
+  * Added support for raw WSGI applications to :meth:`py3web.mount`.
+  * :meth:`py3web.mount` parameter order changed.
+  * :meth:`py3web.route` now accpets an import string for the ``callback`` parameter.
   * Dropped Gunicorn 0.8 support. Current supported version is 0.13.
   * Added custom options to Gunicorn server.
   * Finally dropped support for type filters. Replace with a custom plugin of needed.
@@ -82,7 +82,7 @@ Release 0.9
 .. rubric:: Whats new?
 
 * A brand new plugin-API. See :ref:`plugins` and :doc:`plugindev` for details.
-* The :func:`route` decorator got a lot of new features. See :meth:`Bottle.route` for details.
+* The :func:`route` decorator got a lot of new features. See :meth:`py3web.route` for details.
 * New server adapters for `gevent <http://www.gevent.org/>`_, `meinheld <http://meinheld.org/>`_ and `bjoern <https://github.com/jonashaag/bjoern>`_.
 * Support for SimpleTAL templates.
 * Better runtime exception handling for mako templates in debug mode.
@@ -117,7 +117,7 @@ These changes may break compatibility with previous versions.
   * Regular expressions must be encapsulated with ``#``. In 0.6 all non-alphanumeric characters not present in the regular expression were allowed.
   * Regular expressions not part of a route wildcard are escaped automatically. You don't have to escape dots or other regular control characters anymore. In 0.6 the whole URL was interpreted as a regular expression. You can use anonymous wildcards (``/index:#(\.html)?#``) to achieve a similar behaviour.
 
-* The ``BreakTheBottle`` exception is gone. Use :class:`HTTPResponse` instead.
+* The ``BreakThepy3web`` exception is gone. Use :class:`HTTPResponse` instead.
 * The :class:`SimpleTemplate` engine escapes HTML special characters in ``{{bad_html}}`` expressions automatically. Use the new ``{{!good_html}}`` syntax to get old behaviour (no escaping).
 * The :class:`SimpleTemplate` engine returns unicode strings instead of lists of byte strings.
 * ``py3web.optimize()`` and the automatic route optimization is obsolete.

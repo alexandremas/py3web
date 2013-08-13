@@ -4,53 +4,53 @@
 List of available Plugins
 =========================
 
-This is a list of third-party plugins that add extend Bottles core functionality or integrate other libraries with the Bottle framework.
+This is a list of third-party plugins that add extend py3webs core functionality or integrate other libraries with the py3web framework.
 
 Have a look at :ref:`plugins` for general questions about plugins (installation, usage). If you plan to develop a new plugin, the :doc:`/plugindev` may help you.
 
-`Bottle-Cork <http://cork.firelet.net/>`_
-	Cork provides a simple set of methods to implement Authentication and Authorization in web applications based on Bottle.
+`py3web-Cork <http://cork.firelet.net/>`_
+	Cork provides a simple set of methods to implement Authentication and Authorization in web applications based on py3web.
 
-`Bottle-Extras <http://pypi.python.org/pypi/py3web-extras/>`_
+`py3web-Extras <http://pypi.python.org/pypi/py3web-extras/>`_
 	Meta package to install the py3web plugin collection.
 
-`Bottle-Flash <http://pypi.python.org/pypi/py3web-flash/>`_
+`py3web-Flash <http://pypi.python.org/pypi/py3web-flash/>`_
 	flash plugin for py3web
 
-`Bottle-Hotqueue <http://pypi.python.org/pypi/py3web-hotqueue/>`_
-	FIFO Queue for Bottle built upon redis
+`py3web-Hotqueue <http://pypi.python.org/pypi/py3web-hotqueue/>`_
+	FIFO Queue for py3web built upon redis
 
 `Macaron <http://nobrin.github.com/macaron/webapp.html>`_
 	Macaron is an object-relational mapper (ORM) for SQLite.
 
-`Bottle-Memcache <http://pypi.python.org/pypi/py3web-memcache/>`_
-	Memcache integration for Bottle.
+`py3web-Memcache <http://pypi.python.org/pypi/py3web-memcache/>`_
+	Memcache integration for py3web.
 
-`Bottle-MongoDB <http://pypi.python.org/pypi/py3web-mongodb/>`_
-	MongoDB integration for Bottle
+`py3web-MongoDB <http://pypi.python.org/pypi/py3web-mongodb/>`_
+	MongoDB integration for py3web
 
-`Bottle-Redis <http://pypi.python.org/pypi/py3web-redis/>`_
-	Redis integration for Bottle.
+`py3web-Redis <http://pypi.python.org/pypi/py3web-redis/>`_
+	Redis integration for py3web.
 
-`Bottle-Renderer <http://pypi.python.org/pypi/py3web-renderer/>`_
+`py3web-Renderer <http://pypi.python.org/pypi/py3web-renderer/>`_
 	Renderer plugin for py3web
 
-`Bottle-Servefiles <http://pypi.python.org/pypi/py3web-servefiles/>`_
+`py3web-Servefiles <http://pypi.python.org/pypi/py3web-servefiles/>`_
 	A reusable app that serves static files for py3web apps
 
-`Bottle-Sqlalchemy <http://pypi.python.org/pypi/py3web-sqlalchemy/>`_
-	SQLAlchemy integration for Bottle.
+`py3web-Sqlalchemy <http://pypi.python.org/pypi/py3web-sqlalchemy/>`_
+	SQLAlchemy integration for py3web.
 
-`Bottle-Sqlite <http://pypi.python.org/pypi/py3web-sqlite/>`_
-	SQLite3 database integration for Bottle.
+`py3web-Sqlite <http://pypi.python.org/pypi/py3web-sqlite/>`_
+	SQLite3 database integration for py3web.
 
-`Bottle-Web2pydal <http://pypi.python.org/pypi/py3web-web2pydal/>`_
-	Web2py Dal integration for Bottle.
+`py3web-Web2pydal <http://pypi.python.org/pypi/py3web-web2pydal/>`_
+	Web2py Dal integration for py3web.
 
-`Bottle-Werkzeug <http://pypi.python.org/pypi/py3web-werkzeug/>`_
+`py3web-Werkzeug <http://pypi.python.org/pypi/py3web-werkzeug/>`_
 	Integrates the `werkzeug` library (alternative request and response objects, advanced debugging middleware and more).
 
-Plugins listed here are not part of Bottle or the Bottle project, but developed and maintained by third parties.
+Plugins listed here are not part of py3web or the py3web project, but developed and maintained by third parties.
 
 .. toctree::
     :glob:

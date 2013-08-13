@@ -24,11 +24,11 @@ Tutorial: Todo-List Application
    This tutorial is a work in progess and written by `noisefloor <http://github.com/noisefloor>`_.
 
 
-This tutorial should give a brief introduction to the Bottle_ WSGI Framework. The main goal is to be able, after reading through this tutorial, to create a project using Bottle. Within this document, not all abilities will be shown, but at least the main and important ones like routing, utilizing the Bottle template abilities to format output and handling GET / POST parameters.
+This tutorial should give a brief introduction to the py3web_ WSGI Framework. The main goal is to be able, after reading through this tutorial, to create a project using py3web. Within this document, not all abilities will be shown, but at least the main and important ones like routing, utilizing the py3web template abilities to format output and handling GET / POST parameters.
 
-To understand the content here, it is not necessary to have a basic knowledge of WSGI, as Bottle tries to keep WSGI away from the user anyway. You should have a fair understanding of the Python_ programming language. Furthermore, the example used in the tutorial retrieves and stores data in a SQL databse, so a basic idea about SQL helps, but is not a must to understand the concepts of Bottle. Right here, SQLite_ is used. The output of Bottle sent to the browser is formatted in some examples by the help of HTML. Thus, a basic idea about the common HTML tags does help as well.
+To understand the content here, it is not necessary to have a basic knowledge of WSGI, as py3web tries to keep WSGI away from the user anyway. You should have a fair understanding of the Python_ programming language. Furthermore, the example used in the tutorial retrieves and stores data in a SQL databse, so a basic idea about SQL helps, but is not a must to understand the concepts of py3web. Right here, SQLite_ is used. The output of py3web sent to the browser is formatted in some examples by the help of HTML. Thus, a basic idea about the common HTML tags does help as well.
 
-For the sake of introducing Bottle, the Python code "in between" is kept short, in order to keep the focus. Also all code within the tutorial is working fine, but you may not necessarily use it "in the wild", e.g. on a public web server. In order to do so, you may add e.g. more error handling, protect the database with a password, test and escape the input etc.
+For the sake of introducing py3web, the Python code "in between" is kept short, in order to keep the focus. Also all code within the tutorial is working fine, but you may not necessarily use it "in the wild", e.g. on a public web server. In order to do so, you may add e.g. more error handling, protect the database with a password, test and escape the input etc.
 
 .. contents:: Table of Contents
 
@@ -39,7 +39,7 @@ At the end of this tutorial, we will have a simple, web-based ToDo list. The lis
 
 During development, all pages will be available on ``localhost`` only, but later on it will be shown how to adapt the application for a "real" server, including how to use with Apache's mod_wsgi.
 
-Bottle will do the routing and format the output, with the help of templates. The items of the list will be stored inside a SQLite database. Reading and  writing the database will be done by Python code.
+py3web will do the routing and format the output, with the help of templates. The items of the list will be stored inside a SQLite database. Reading and  writing the database will be done by Python code.
 
 We will end up with an application with the following pages and functionality:
 
@@ -53,11 +53,11 @@ Before We Start...
 ====================
 
 
-.. rubric:: Install Bottle
+.. rubric:: Install py3web
 
-Assuming that you have a fairly new installation of Python (version 2.5 or higher), you only need to install Bottle in addition to that. Bottle has no other dependencies than Python itself.
+Assuming that you have a fairly new installation of Python (version 2.5 or higher), you only need to install py3web in addition to that. py3web has no other dependencies than Python itself.
 
-You can either manually install Bottle or use Python's easy_install: ``easy_install py3web``
+You can either manually install py3web or use Python's easy_install: ``easy_install py3web``
 
 
 .. rubric:: Further Software Necessities
@@ -79,15 +79,15 @@ First, we need to create the database we use later on. To do so, save the follow
 
 This generates a database-file `todo.db` with tables called ``todo`` and three columns ``id``, ``task``, and ``status``. ``id`` is a unique id for each row, which is used later on to reference the rows. The column ``task`` holds the text which describes the task, it can be max 100 characters long. Finally, the column ``status`` is used to mark a task as open (value 1) or closed (value 0).
 
-Using Bottle for a Web-Based ToDo List
+Using py3web for a Web-Based ToDo List
 ================================================
 
-Now it is time to introduce Bottle in order to create a web-based application. But first, we need to look into a basic concept of Bottle: routes.
+Now it is time to introduce py3web in order to create a web-based application. But first, we need to look into a basic concept of py3web: routes.
 
 
 .. rubric:: Understanding routes
 
-Basically, each page visible in the browser is dynamically generated when the page address is called. Thus, there is no static content. That is exactly what is called a "route" within Bottle: a certain address on the server. So, for example, when the page ``http://localhost:8080/todo`` is called from the browser, Bottle "grabs" the call and checks if there is any (Python) function defined for the route "todo". If so, Bottle will execute the corresponding Python code and return its result.
+Basically, each page visible in the browser is dynamically generated when the page address is called. Thus, there is no static content. That is exactly what is called a "route" within py3web: a certain address on the server. So, for example, when the page ``http://localhost:8080/todo`` is called from the browser, py3web "grabs" the call and checks if there is any (Python) function defined for the route "todo". If so, py3web will execute the corresponding Python code and return its result.
 
 
 .. rubric:: First Step - Showing All Open Items
@@ -109,7 +109,7 @@ So, after understanding the concept of routes, let's create the first one. The g
 
 Save the code a ``todo.py``, preferably in the same directory as the file ``todo.db``. Otherwise, you need to add the path to ``todo.db`` in the ``sqlite3.connect()`` statement.
 
-Let's have a look what we just did: We imported the necessary module ``sqlite3`` to access to SQLite database and from Bottle we imported ``route`` and ``run``. The ``run()`` statement simply starts the web server included in Bottle. By default, the web server serves the pages on localhost and port 8080. Furthermore, we imported ``route``, which is the function responsible for Bottle's routing. As you can see, we defined one function, ``todo_list()``, with a few lines of code reading from the database. The important point is the `decorator statement`_ ``@route('/todo')`` right before the ``def todo_list()`` statement. By doing this, we bind this function to the route ``/todo``, so every time the browsers calls ``http://localhost:8080/todo``, Bottle returns the result of the function ``todo_list()``. That is how routing within py3web works.
+Let's have a look what we just did: We imported the necessary module ``sqlite3`` to access to SQLite database and from py3web we imported ``route`` and ``run``. The ``run()`` statement simply starts the web server included in py3web. By default, the web server serves the pages on localhost and port 8080. Furthermore, we imported ``route``, which is the function responsible for py3web's routing. As you can see, we defined one function, ``todo_list()``, with a few lines of code reading from the database. The important point is the `decorator statement`_ ``@route('/todo')`` right before the ``def todo_list()`` statement. By doing this, we bind this function to the route ``/todo``, so every time the browsers calls ``http://localhost:8080/todo``, py3web returns the result of the function ``todo_list()``. That is how routing within py3web works.
 
 Actually you can bind more than one route to a function. So the following code::
 
@@ -120,13 +120,13 @@ Actually you can bind more than one route to a function. So the following code::
 
 will work fine, too. What will not work is to bind one route to more than one function.
 
-What you will see in the browser is what is returned, thus the value given by the ``return`` statement. In this example, we need to convert ``result`` in to a string by ``str()``, as Bottle expects a string or a list of strings from the return statement. But here, the result of the database query is a list of tuples, which is the standard defined by the `Python DB API`_.
+What you will see in the browser is what is returned, thus the value given by the ``return`` statement. In this example, we need to convert ``result`` in to a string by ``str()``, as py3web expects a string or a list of strings from the return statement. But here, the result of the database query is a list of tuples, which is the standard defined by the `Python DB API`_.
 
 Now, after understanding the little script above, it is time to execute it and watch the result yourself. Remember that on Linux- / Unix-based systems the file ``todo.py`` needs to be executable first. Then, just run ``python todo.py`` and call the page ``http://localhost:8080/todo`` in your browser. In case you made no mistake writing the script, the output should look like this::
 
     [(2, u'Visit the Python website'), (3, u'Test various editors for and check the syntax highlighting')]
 
-If so - congratulations! You are now a successful user of Bottle. In case it did not work and you need to make some changes to the script, remember to stop Bottle serving the page, otherwise the revised version will not be loaded.
+If so - congratulations! You are now a successful user of py3web. In case it did not work and you need to make some changes to the script, remember to stop py3web serving the page, otherwise the revised version will not be loaded.
 
 Actually, the output is not really exciting nor nice to read. It is the raw result returned from the SQL query.
 
@@ -135,7 +135,7 @@ So, in the next step we format the output in a nicer way. But before we do that,
 
 .. rubric:: Debugging and Auto-Reload
 
-Maybe you already noticed that Bottle sends a short error message to the browser in case something within the script is wrong, e.g. the connection to the database is not working. For debugging purposes it is quite helpful to get more details. This can be easily achieved by adding the following statement to the script::
+Maybe you already noticed that py3web sends a short error message to the browser in case something within the script is wrong, e.g. the connection to the database is not working. For debugging purposes it is quite helpful to get more details. This can be easily achieved by adding the following statement to the script::
 
     from py3web import run, route, debug
     ...
@@ -162,13 +162,13 @@ This will automatically detect changes to the script and reload the new version 
 Again, the feature is mainly supposed to be used while developing, not on production systems.
 
 
-.. rubric:: Bottle Template To Format The Output
+.. rubric:: py3web Template To Format The Output
 
 Now let's have a look at casting the output of the script into a proper format.
 
-Actually Bottle expects to receive a string or a list of strings from a function and returns them by the help of the built-in server to the browser. Bottle does not bother about the content of the string itself, so it can be text formatted with HTML markup, too.
+Actually py3web expects to receive a string or a list of strings from a function and returns them by the help of the built-in server to the browser. py3web does not bother about the content of the string itself, so it can be text formatted with HTML markup, too.
 
-Bottle brings its own easy-to-use template engine with it. Templates are stored as separate files having a ``.tpl`` extension. The template can be called then from within a function. Templates can contain any type of text (which will be most likely HTML-markup mixed with Python statements). Furthermore, templates can take arguments, e.g. the result set of a database query, which will be then formatted nicely within the template.
+py3web brings its own easy-to-use template engine with it. Templates are stored as separate files having a ``.tpl`` extension. The template can be called then from within a function. Templates can contain any type of text (which will be most likely HTML-markup mixed with Python statements). Furthermore, templates can take arguments, e.g. the result set of a database query, which will be then formatted nicely within the template.
 
 Right here, we are going to cast the result of our query showing the open ToDo items into a simple table with two columns: the first column will contain the ID of the item, the second column the text. The result set is, as seen above, a list of tuples, each tuple contains one set of results.
 
@@ -182,7 +182,7 @@ To include the template in our example, just add the following lines::
     return output
     ...
 
-So we do here two things: first, we import ``template`` from Bottle in order to be able to use templates. Second, we assign the output of the template ``make_table`` to the variable ``output``, which is then returned. In addition to calling the template, we assign ``result``, which we received from the database query, to the variable ``rows``, which is later on used within the template. If necessary, you can assign more than one variable / value to a template.
+So we do here two things: first, we import ``template`` from py3web in order to be able to use templates. Second, we assign the output of the template ``make_table`` to the variable ``output``, which is then returned. In addition to calling the template, we assign ``result``, which we received from the database query, to the variable ``rows``, which is later on used within the template. If necessary, you can assign more than one variable / value to a template.
 
 Templates always return a list of strings, thus there is no need to convert anything. Of course, we can save one line of code by writing ``return template('make_table', rows=result)``, which gives exactly the same result as above.
 
@@ -238,7 +238,7 @@ To do so, we first add a new route to our script and tell the route that it shou
 
         return '<p>The new task was inserted into the database, the ID is %s</p>' % new_id
 
-To access GET (or POST) data, we need to import ``request`` from Bottle. To assign the actual data to a variable, we use the statement ``request.GET.get('task','').strip()`` statement, where ``task`` is the name of the GET data we want to access. That's all. If your GET data has more than one variable, multiple ``request.GET.get()`` statements can be used and assigned to other variables.
+To access GET (or POST) data, we need to import ``request`` from py3web. To assign the actual data to a variable, we use the statement ``request.GET.get('task','').strip()`` statement, where ``task`` is the name of the GET data we want to access. That's all. If your GET data has more than one variable, multiple ``request.GET.get()`` statements can be used and assigned to other variables.
 
 The rest of this piece of code is just processing of the gained data: writing to the database, retrieve the corresponding id from the database and generate the output.
 
@@ -286,13 +286,13 @@ By the way, if you prefer to use POST data: this works exactly the same way, jus
 
 The last point to do is to enable editing of existing items.
 
-By using only the routes we know so far it is possible, but may be quite tricky. But Bottle knows something called "dynamic routes", which makes this task quite easy.
+By using only the routes we know so far it is possible, but may be quite tricky. But py3web knows something called "dynamic routes", which makes this task quite easy.
 
 The basic statement for a dynamic route looks like this::
 
     @route('/myroute/:something')
 
-The key point here is the colon. This tells Bottle to accept for ``:something`` any string up to the next slash. Furthermore, the value of ``something`` will be passed to the function assigned to that route, so the data can be processed within the function.
+The key point here is the colon. This tells py3web to accept for ``:something`` any string up to the next slash. Furthermore, the value of ``something`` will be passed to the function assigned to that route, so the data can be processed within the function.
 
 For our ToDo list, we will create a route ``@route('/edit/:no)``, where ``no`` is the id of the item to edit.
 
@@ -350,7 +350,7 @@ A last word on dynamic routes: you can even use a regular expression for a dynam
 
 Using dynamic routes is fine, but for many cases it makes sense to validate the dynamic part of the route. For example, we expect an integer number in our route for editing above. But if a float, characters or so are received, the Python interpreter throws an exception, which is not what we want.
 
-For those cases, Bottle offers the ``@validate`` decorator, which validates the "input" prior to passing it to the function. In order to apply the validator, extend the code as follows::
+For those cases, py3web offers the ``@validate`` decorator, which validates the "input" prior to passing it to the function. In order to apply the validator, extend the code as follows::
 
     from py3web import route, run, debug, template, request, validate
     ...
@@ -359,13 +359,13 @@ For those cases, Bottle offers the ``@validate`` decorator, which validates the 
     def edit_item(no):
     ...
 
-At first, we imported ``validate`` from the Bottle framework, than we apply the @validate-decorator. Right here, we validate if ``no`` is an integer. Basically, the validation works with all types of data like floats, lists etc.
+At first, we imported ``validate`` from the py3web framework, than we apply the @validate-decorator. Right here, we validate if ``no`` is an integer. Basically, the validation works with all types of data like floats, lists etc.
 
 Save the code and call the page again using a "403 forbidden" value for ``:no``, e.g. a float. You will receive not an exception, but a "403 - Forbidden" error, saying that an integer was expected.
 
 .. rubric:: Dynamic Routes Using Regular Expressions
 
-Bottle can also handle dynamic routes, where the "dynamic part" of the route can be a regular expression.
+py3web can also handle dynamic routes, where the "dynamic part" of the route can be a regular expression.
 
 So, just to demonstrate that, let's assume that all single items in our ToDo list should be accessible by their plain number, by a term like e.g. "item1". For obvious reasons, you do not want to create a route for every item. Furthermore, the simple dynamic routes do not work either, as part of the route, the term "item" is static.
 
@@ -396,12 +396,12 @@ Sometimes it may become necessary to associate a route not to a Python function,
     def help():
         return static_file('help.html', root='/path/to/file')
 
-At first, we need to import the ``static_file`` function from Bottle. As you can see, the ``return static_file`` statement replaces the ``return`` statement. It takes at least two arguments: the name of the file to be returned and the path to the file. Even if the file is in the same directory as your application, the path needs to be stated. But in this case, you can use ``'.'`` as a path, too. Bottle guesses the MIME-type of the file automatically, but in case you like to state it explicitly, add a third argument to ``static_file``, which would be here ``mimetype='text/html'``. ``static_file`` works with any type of route, including the dynamic ones.
+At first, we need to import the ``static_file`` function from py3web. As you can see, the ``return static_file`` statement replaces the ``return`` statement. It takes at least two arguments: the name of the file to be returned and the path to the file. Even if the file is in the same directory as your application, the path needs to be stated. But in this case, you can use ``'.'`` as a path, too. py3web guesses the MIME-type of the file automatically, but in case you like to state it explicitly, add a third argument to ``static_file``, which would be here ``mimetype='text/html'``. ``static_file`` works with any type of route, including the dynamic ones.
 
 
 .. rubric:: Returning JSON Data
 
-There may be cases where you do not want your application to generate the output directly, but return data to be processed further on, e.g. by JavaScript. For those cases, Bottle offers the possibility to return JSON objects, which is sort of standard for exchanging data between web applications. Furthermore, JSON can be processed by many programming languages, including Python
+There may be cases where you do not want your application to generate the output directly, but return data to be processed further on, e.g. by JavaScript. For those cases, py3web offers the possibility to return JSON objects, which is sort of standard for exchanging data between web applications. Furthermore, JSON can be processed by many programming languages, including Python
 
 So, let's assume we want to return the data generated in the regular expression route example as a JSON object. The code looks like this::
 
@@ -418,13 +418,13 @@ So, let's assume we want to return the data generated in the regular expression 
         else:
             return {'Task': result[0]}
 
-As you can, that is fairly simple: just return a regular Python dictionary and Bottle will convert it automatically into a JSON object prior to sending. So if you e.g. call "http://localhost/json1" Bottle should in this case return the JSON object ``{"Task": ["Read A-byte-of-python to get a good introduction into Python"]}``.
+As you can, that is fairly simple: just return a regular Python dictionary and py3web will convert it automatically into a JSON object prior to sending. So if you e.g. call "http://localhost/json1" py3web should in this case return the JSON object ``{"Task": ["Read A-byte-of-python to get a good introduction into Python"]}``.
 
 
 
 .. rubric:: Catching Errors
 
-The next step may is to catch the error with Bottle itself, to keep away any type of error message from the user of your application. To do that, Bottle has an "error-route", which can be a assigned to a HTML-error.
+The next step may is to catch the error with py3web itself, to keep away any type of error message from the user of your application. To do that, py3web has an "error-route", which can be a assigned to a HTML-error.
 
 In our case, we want to catch a 403 error. The code is as follows::
 
@@ -434,7 +434,7 @@ In our case, we want to catch a 403 error. The code is as follows::
     def mistake(code):
         return 'The parameter you passed has the wrong format!'
 
-So, at first we need to import ``error`` from Bottle and define a route by ``error(403)``, which catches all "403 forbidden" errors. The function "mistake" is assigned to that. Please note that ``error()`` always passes the error-code to the function - even if you do not need it. Thus, the function always needs to accept one argument, otherwise it will not work.
+So, at first we need to import ``error`` from py3web and define a route by ``error(403)``, which catches all "403 forbidden" errors. The function "mistake" is assigned to that. Please note that ``error()`` always passes the error-code to the function - even if you do not need it. Thus, the function always needs to accept one argument, otherwise it will not work.
 
 Again, you can assign more than one error-route to a function, or catch various errors with one function each. So this code::
 
@@ -456,27 +456,27 @@ works fine, the following one as well::
 
 .. rubric:: Summary
 
-After going through all the sections above, you should have a brief understanding how the Bottle WSGI framework works. Furthermore you have all the knowledge necessary to use Bottle for your applications.
+After going through all the sections above, you should have a brief understanding how the py3web WSGI framework works. Furthermore you have all the knowledge necessary to use py3web for your applications.
 
-The following chapter give a short introduction how to adapt Bottle for larger projects. Furthermore, we will show how to operate Bottle with web servers which perform better on a higher load / more web traffic than the one we used so far.
+The following chapter give a short introduction how to adapt py3web for larger projects. Furthermore, we will show how to operate py3web with web servers which perform better on a higher load / more web traffic than the one we used so far.
 
 Server Setup
 ================================
 
-So far, we used the standard server used by Bottle, which is the `WSGI reference Server`_ shipped along with Python. Although this server is perfectly suitable for development purposes, it is not really suitable for larger applications. But before we have a look at the alternatives, let's have a look how to tweak the settings of the standard server first.
+So far, we used the standard server used by py3web, which is the `WSGI reference Server`_ shipped along with Python. Although this server is perfectly suitable for development purposes, it is not really suitable for larger applications. But before we have a look at the alternatives, let's have a look how to tweak the settings of the standard server first.
 
 
-.. rubric:: Running Bottle on a different port and IP
+.. rubric:: Running py3web on a different port and IP
 
-As standard, Bottle serves the pages on the IP adress 127.0.0.1, also known as ``localhost``, and on port ``8080``. To modify the setting is pretty simple, as additional parameters can be passed to Bottle's ``run()`` function to change the port and the address.
+As standard, py3web serves the pages on the IP adress 127.0.0.1, also known as ``localhost``, and on port ``8080``. To modify the setting is pretty simple, as additional parameters can be passed to py3web's ``run()`` function to change the port and the address.
 
 To change the port, just add ``port=portnumber`` to the run command. So, for example::
 
     run(port=80)
 
-would make Bottle listen to port 80.
+would make py3web listen to port 80.
 
-To change the IP address where Bottle is listening::
+To change the IP address where py3web is listening::
 
     run(host='123.45.67.89')
 
@@ -484,16 +484,16 @@ Of course, both parameters can be combined, like::
 
    run(port=80, host='123.45.67.89')
 
-The ``port`` and ``host`` parameter can also be applied when Bottle is running with a different server, as shown in the following section.
+The ``port`` and ``host`` parameter can also be applied when py3web is running with a different server, as shown in the following section.
 
 
-.. rubric:: Running Bottle with a different server
+.. rubric:: Running py3web with a different server
 
-As said above, the standard server is perfectly suitable for development, personal use or a small group of people only using your application based on Bottle. For larger tasks, the standard server may become a py3webneck, as it is single-threaded, thus it can only serve one request at a time.
+As said above, the standard server is perfectly suitable for development, personal use or a small group of people only using your application based on py3web. For larger tasks, the standard server may become a py3webneck, as it is single-threaded, thus it can only serve one request at a time.
 
-But Bottle has already various adapters to multi-threaded servers on board, which perform better on higher load. Bottle supports Cherrypy_, Fapws3_, Flup_ and Paste_.
+But py3web has already various adapters to multi-threaded servers on board, which perform better on higher load. py3web supports Cherrypy_, Fapws3_, Flup_ and Paste_.
 
-If you want to run for example Bottle with the Paste server, use the following code::
+If you want to run for example py3web with the Paste server, use the following code::
 
     from py3web import PasteServer
     ...
@@ -502,13 +502,13 @@ If you want to run for example Bottle with the Paste server, use the following c
 This works exactly the same way with ``FlupServer``, ``CherryPyServer`` and ``FapwsServer``.
 
 
-.. rubric:: Running Bottle on Apache with mod_wsgi
+.. rubric:: Running py3web on Apache with mod_wsgi
 
-Maybe you already have an Apache_ or you want to run a Bottle-based application large scale - then it is time to think about Apache with mod_wsgi_.
+Maybe you already have an Apache_ or you want to run a py3web-based application large scale - then it is time to think about Apache with mod_wsgi_.
 
 We assume that your Apache server is up and running and mod_wsgi is working fine as well. On a lot of Linux distributions, mod_wsgi can be easily installed via whatever package management system is in use.
 
-Bottle brings an adapter for mod_wsgi with it, so serving your application is an easy task.
+py3web brings an adapter for mod_wsgi with it, so serving your application is an easy task.
 
 In the following example, we assume that you want to make your application "ToDo list" accessible through ``http://www.mypage.com/todo`` and your code, templates and SQLite database are stored in the path ``/var/www/todo``.
 
@@ -548,9 +548,9 @@ After restarting the server, your ToDo list should be accessible at ``http://www
 Final Words
 =========================
 
-Now we are at the end of this introduction and tutorial to Bottle. We learned about the basic concepts of Bottle and wrote a first application using the Bottle framework. In addition to that, we saw how to adapt Bottle for large tasks and serve Bottle through an Apache web server with mod_wsgi.
+Now we are at the end of this introduction and tutorial to py3web. We learned about the basic concepts of py3web and wrote a first application using the py3web framework. In addition to that, we saw how to adapt py3web for large tasks and serve py3web through an Apache web server with mod_wsgi.
 
-As said in the introduction, this tutorial is not showing all shades and possibilities of Bottle. What we skipped here is e.g. receiving file objects and streams and how to handle authentication data. Furthermore, we did not show how templates can be called from within another template. For an introduction into those points, please refer to the full `Bottle documentation`_ .
+As said in the introduction, this tutorial is not showing all shades and possibilities of py3web. What we skipped here is e.g. receiving file objects and streams and how to handle authentication data. Furthermore, we did not show how templates can be called from within another template. For an introduction into those points, please refer to the full `py3web documentation`_ .
 
 Complete Example Listing
 =========================
@@ -562,7 +562,7 @@ Main code for the application ``todo.py``::
     import sqlite3
     from py3web import route, run, debug, template, request, validate, static_file, error
 
-    # only needed when you run Bottle on mod_wsgi
+    # only needed when you run py3web on mod_wsgi
     from py3web import default_app
 
     @route('/todo')
