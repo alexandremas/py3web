@@ -69,15 +69,16 @@ except ImportError: # pragma: no cover
 py   = sys.version_info
 py33 = py >= (3, 3, 0)
 
-##TODO: REFACTOR
-# Workaround for the missing "as" keyword in py3k.
+
+# catch exceptions error messages
 def _e(): return sys.exc_info()[1]
 
 # Workaround for the "print is a keyword/function" Python 2/3 dilemma
 # and a fallback for mod_wsgi (resticts stdout/err attribute access)
-##TODO: REFACTOR
 _stdout = lambda x: sys.stdout.write(x)
 _stderr = lambda x: sys.stderr.write(x)
+
+
 
 # Lots of stdlib and builtin differences.
 
@@ -2621,7 +2622,22 @@ class WSGIRefServer(ServerAdapter):
                     #return super(FixedHandler).log_request(*args, **kw)
                     pass
         self.options['handler_class'] = FixedHandler
-        srv = make_server(self.host, self.port, handler, **self.options)
+        sucess = False
+
+        while sucess == False:
+            try:
+                srv = make_server(self.host, self.port, handler, **self.options)
+                _stdout("Listening on http://%s:%d/\n" % (self.host, self.port))
+                sucess = True
+            except Exception:
+                self.port += 1
+                erro = str(_e())[:33]
+                _stderr(erro+'[port:%s]' %self.port)
+
+                if erro == "[Errno 98] Address already in use".__len__():
+                    port += 1
+
+
         srv.serve_forever()
 
 
@@ -2865,7 +2881,16 @@ def load_app(target):
 _debug = debug
 def run(app=None, server='wsgiref', host='127.0.0.1', port=8080,
         interval=1, reloader=False, quiet=False, plugins=None,
-        debug=None, **kargs):
+        debug=None, development=False, **kargs):
+
+    if development == True:
+        debug=True
+        debug(True)
+        reloader=True
+        _stdout('Working at development mode. To alter to production mode, or use run() or run(development = False) in your code\n')
+    else:
+        _stdout('Working at production mode. To alter to development mode, use run( development = True) in your code\n')
+
     """ Start a server instance. This method blocks until the server terminates.
 
         :param app: WSGI application or target string supported by
@@ -2929,9 +2954,9 @@ def run(app=None, server='wsgiref', host='127.0.0.1', port=8080,
 
         server.quiet = server.quiet or quiet
         if not server.quiet:
-            _stderr("py3web v%s server starting up (using %s)...\n" % (__version__, repr(server)))
-            _stderr("Listening on http://%s:%d/\n" % (server.host, server.port))
-            _stderr("Hit Ctrl-C to quit.\n\n")
+            _stdout("py3web v%s server starting up (using %s)...\n" % (__version__, repr(server)))
+            _stdout("Trying to wake up on http://%s:%d/\n" % (server.host, server.port))
+            _stdout("Hit Ctrl-C to quit.\n\n")
 
         if reloader:
             lockfile = os.environ.get('PY3WEB_LOCKFILE')
@@ -3532,8 +3557,9 @@ if __name__ == '__main__':
     if ':' in host:
         host, port = host.rsplit(':', 1)
 
-    run(args[0], host=host, port=port, server=opt.server,
-        reloader=opt.reload, plugins=opt.plugin, debug=opt.debug)
+    run(args[0], host=host, port=port, server=opt.server,reloader=opt.reload, plugins=opt.plugin, debug=opt.debug)
+
+
 
 
 

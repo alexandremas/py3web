@@ -11,7 +11,7 @@
 .. _Flup: http://trac.saddi.com/flup
 .. _Paste: http://pythonpaste.org/
 .. _Apache: http://www.apache.org
-.. _`py3web documentation`: http://hipercenter.com
+.. _`py3web documentation`: http://py3web.hipercenter.com
 .. _`mod_wsgi`: http://code.google.com/p/modwsgi/
 .. _`json`: http://www.json.org
 
@@ -21,7 +21,7 @@ Tutorial: Todo-List Application
 
 .. note::
 
-   This tutorial is a work in progess and written by `noisefloor <http://github.com/noisefloor>`_.
+   This tutorial is a work in progess and is based on one  written by `noisefloor <http://github.com/noisefloor>`_. for Bottlepy
 
 
 This tutorial should give a brief introduction to the py3web_ WSGI Framework. The main goal is to be able, after reading through this tutorial, to create a project using py3web. Within this document, not all abilities will be shown, but at least the main and important ones like routing, utilizing the py3web template abilities to format output and handling GET / POST parameters.
@@ -31,6 +31,11 @@ To understand the content here, it is not necessary to have a basic knowledge of
 For the sake of introducing py3web, the Python code "in between" is kept short, in order to keep the focus. Also all code within the tutorial is working fine, but you may not necessarily use it "in the wild", e.g. on a public web server. In order to do so, you may add e.g. more error handling, protect the database with a password, test and escape the input etc.
 
 .. contents:: Table of Contents
+
+Sample code
+===========
+
+The code for this tutorial is in directory 'examples/todo' at source code.
 
 Goals
 ===========
@@ -55,7 +60,7 @@ Before We Start...
 
 .. rubric:: Install py3web
 
-Assuming that you have a fairly new installation of Python (version 2.5 or higher), you only need to install py3web in addition to that. py3web has no other dependencies than Python itself.
+Assuming that you have a fairly new installation of Python (version 3.3 or higher), you only need to install py3web in addition to that. py3web has no other dependencies than Python itself.
 
 You can either manually install py3web or use Python's easy_install: ``easy_install py3web``
 
@@ -157,10 +162,24 @@ Another quite nice feature is auto-reloading, which is enabled by modifying the 
 
     run(reloader=True)
 
+
+
 This will automatically detect changes to the script and reload the new version once it is called again, without the need to stop and start the server.
 
 Again, the feature is mainly supposed to be used while developing, not on production systems.
 
+py3web has a little trick to enable the 2 features at same time to a development, just set:
+
+::
+
+    run(development=True)
+
+is the same like
+
+::
+
+    debug(True)
+    run(reloader=True)
 
 .. rubric:: py3web Template To Format The Output
 

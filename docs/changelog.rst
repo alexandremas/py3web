@@ -6,8 +6,21 @@ Release Notes and Changelog
 ===========================
 
 
+Release 0.0.02
+==============
 
-Release 0.12
++ added fix to automatically increase port number until find one free to start (usefull on development)
++ added variable run(development=False). If set true it will tweak debug(True) and run(reloader=True)
+
+
+Release 0.0.01 (started development of py3web)
+==============
+
+- basic renaming of all project
+
+
+
+Release 0.12 (last version Bottle forked)
 ==============
 
 .. warning: Not released yet.
