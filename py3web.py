@@ -24,7 +24,7 @@ License: MIT (see LICENSE for details)
 from __future__ import with_statement
 
 __author__ = 'Alexandre Andrade'
-__version__ = '0.O.01-dev'
+__version__ = '0.O.02-dev'
 __license__ = 'MIT'
 
 # The gevent server adapter needs to patch some modules before they are imported
@@ -2885,7 +2885,6 @@ def run(app=None, server='wsgiref', host='127.0.0.1', port=8080,
 
     if development == True:
         debug=True
-        debug(True)
         reloader=True
         _stdout('Working at development mode. To alter to production mode, or use run() or run(development = False) in your code\n')
     else:
@@ -3260,8 +3259,8 @@ class StplParser(object):
     # 3,4: Keywords that start or continue a python block (only start of line)
     _re_tok += '|^([ \\t]*(?:if|for|while|with|try|def|class)\\b)' \
                '|^([ \\t]*(?:elif|else|except|finally)\\b)'
-    # 5: Our special 'end' keyword (but only if it stands alone)
-    _re_tok += '|((?:^|;)[ \\t]*end[ \\t]*(?=(?:%(block_close)s[ \\t]*)?\\r?$|;|#))'
+    # 5b: Added 'pass' keyword (but only if it stands alone)
+    _re_tok += '|((?:^|;)[ \\t]*pass[ \\t]*(?=(?:%(block_close)s[ \\t]*)?\\r?$|;|#))'
     # 6: A customizable end-of-code-block template token (only end of line)
     _re_tok += '|(%(block_close)s[ \\t]*(?=$))'
     # 7: And finally, a single newline. The 8th token is 'everything else'

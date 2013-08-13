@@ -5,6 +5,13 @@
 Release Notes and Changelog
 ===========================
 
+Roadmap
+=============================
+
+- implement a standard template like web2py
+
+
+
 
 Release 0.0.02
 ==============

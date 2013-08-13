@@ -1,5 +1,5 @@
 import sqlite3
-from py3web import route, run
+from py3web import route, run, template
 
 
 @route('/')
@@ -12,7 +12,9 @@ def todo_list():
     c = conn.cursor()
     c.execute("SELECT id, task FROM todo WHERE status LIKE '1'")
     result = c.fetchall()
-    return str(result)
-##comment on deployment
-DEVELOPMENT=True
-run()
+    c.close()
+    output = template('make_table', rows=result)
+    return output
+
+
+run(development=True)

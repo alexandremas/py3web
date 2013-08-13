@@ -150,9 +150,7 @@ Maybe you already noticed that py3web sends a short error message to the browser
 
 By enabling "debug", you will get a full stacktrace of the Python interpreter, which usually contains useful information for finding bugs. Furthermore, templates (see below) are not cached, thus changes to templates will take effect without stopping the server.
 
-.. warning::
 
-   That ``debug(True)`` is supposed to be used for development only, it should *not* be used in production environments.
 
 
 
@@ -181,13 +179,20 @@ is the same like
     debug(True)
     run(reloader=True)
 
-.. rubric:: py3web Template To Format The Output
+
+
+.. warning::
+
+   That ``debug(True)``, run(reloader=True) and run(development=True) are supposed to be used for development only, it should *not* be used in production environments.
+
+py3web Template To Format The Output
+=====================
 
 Now let's have a look at casting the output of the script into a proper format.
 
 Actually py3web expects to receive a string or a list of strings from a function and returns them by the help of the built-in server to the browser. py3web does not bother about the content of the string itself, so it can be text formatted with HTML markup, too.
 
-py3web brings its own easy-to-use template engine with it. Templates are stored as separate files having a ``.tpl`` extension. The template can be called then from within a function. Templates can contain any type of text (which will be most likely HTML-markup mixed with Python statements). Furthermore, templates can take arguments, e.g. the result set of a database query, which will be then formatted nicely within the template.
+py3web brings its own easy-to-use template engine with it. Templates are stored as separate files having a ``.html`` extension (or also 'tpl','thtml','stpl'). The template can be called then from within a function. Templates can contain any type of text (which will be most likely HTML-markup mixed with Python statements). Furthermore, templates can take arguments, e.g. the result set of a database query, which will be then formatted nicely within the template.
 
 Right here, we are going to cast the result of our query showing the open ToDo items into a simple table with two columns: the first column will contain the ID of the item, the second column the text. The result set is, as seen above, a list of tuples, each tuple contains one set of results.
 
@@ -214,16 +219,22 @@ Now it is time to write the corresponding template, which looks like this::
       <tr>
       %for col in row:
         <td>{{col}}</td>
-      %end
+      %pass
       </tr>
-    %end
+    %pass
     </table>
 
-Save the code as ``make_table.tpl`` in the same directory where ``todo.py`` is stored.
+
+
+Save the code as ``make_table.html`` in the same directory where ``todo.py`` is stored.
+
+.. warning::
+
+   A difference between py3web and Bottle standard template is py3web uses pass (and not 'end') to end  a block, like standard python.
 
 Let's have a look at the code: every line starting with % is interpreted as Python code. Please note that, of course, only valid Python statements are allowed, otherwise the template will raise an exception, just as any other Python code. The other lines are plain HTML markup.
 
-As you can see, we use Python's ``for`` statement two times, in order to go through ``rows``. As seen above, ``rows`` is a variable which holds the result of the database query, so it is a list of tuples. The first ``for`` statement accesses the tuples within the list, the second one the items within the tuple, which are put each into a cell of the table. It is important that you close all ``for``, ``if``, ``while`` etc. statements with ``%end``, otherwise the output may not be what you expect.
+As you can see, we use Python's ``for`` statement two times, in order to go through ``rows``. As seen above, ``rows`` is a variable which holds the result of the database query, so it is a list of tuples. The first ``for`` statement accesses the tuples within the list, the second one the items within the tuple, which are put each into a cell of the table. It is important that you close all ``for``, ``if``, ``while`` etc. statements with ``%pass``, otherwise the output may not be what you expect.
 
 If you need to access a variable within a non-Python code line inside the template, you need to put it into double curly braces. This tells the template to insert the actual value of the variable right in place.
 
