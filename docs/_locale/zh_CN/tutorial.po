@@ -51,9 +51,9 @@ msgstr "安装"
 #: ../../tutorial.rst:33
 msgid ""
 "Bottle does not depend on any external libraries. You can just download "
-"`bottle.py </bottle.py>`_ into your project directory and start coding:"
+"`py3web.py </py3web.py>`_ into your project directory and start coding:"
 msgstr ""
-"Bottle不依赖其他库，你需要做的仅是下载 `bottle.py </bottle.py>`_ (开发版)到你"
+"Bottle不依赖其他库，你需要做的仅是下载 `py3web.py </py3web.py>`_ (开发版)到你"
 "的项目文件夹，然后开始写代码。"
 
 # 00ba13db53314514a6c6f6af77210c46

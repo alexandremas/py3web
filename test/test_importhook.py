@@ -13,30 +13,30 @@ class TestImportHooks(unittest.TestCase):
 
     def test_direkt_import(self):
         mod = self.make_module('bottle_test')
-        import bottle.ext.test
-        self.assertEqual(bottle.ext.test, mod)
+        import py3web.ext.test
+        self.assertEqual(py3web.ext.test, mod)
 
     def test_from_import(self):
         mod = self.make_module('bottle_test')
-        from bottle.ext import test
+        from py3web.ext import test
         self.assertEqual(test, mod)
 
     def test_data_import(self):
         mod = self.make_module('bottle_test', item='value')
-        from bottle.ext.test import item
+        from py3web.ext.test import item
         self.assertEqual(item, 'value')
 
     def test_import_fail(self):
         ''' Test a simple static page with this server adapter. '''
         def test():
-            import bottle.ext.doesnotexist
+            import py3web.ext.doesnotexist
         self.assertRaises(ImportError, test)
 
     def test_ext_isfile(self):
         ''' The virtual module needs a valid __file__ attribute.
             If not, the Google app engine development server crashes on windows.
         '''
-        from bottle import ext
+        from py3web import ext
         self.assertTrue(os.path.isfile(ext.__file__))
         
 if __name__ == '__main__': #pragma: no cover

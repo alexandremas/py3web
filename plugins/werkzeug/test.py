@@ -1,19 +1,19 @@
 import unittest
 import os
-import bottle
-from bottle.ext import werkzeug as bw
+import py3web
+from py3web.ext import werkzeug as bw
 
 class WerkzeugTest(unittest.TestCase):
     def setUp(self):
-        self.app = bottle.Bottle(catchall=False)
+        self.app = py3web.Bottle(catchall=False)
         self.plugin = self.app.install(bw.WerkzeugPlugin())
 
     def test_resquest_obj(self):
         request = self.plugin.request
         @self.app.get('/')
         def test():
-            self.assertEqual(request.environ, bottle.request.environ)
-            self.assertNotEqual(request, bottle.request)
+            self.assertEqual(request.environ, py3web.request.environ)
+            self.assertNotEqual(request, py3web.request)
             self.assertEqual(request.accept_languages.best, 'de')
             return repr(self.plugin.request)
         self.app({'PATH_INFO':'/', 'REQUEST_METHOD':'GET',

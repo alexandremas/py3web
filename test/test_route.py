@@ -1,5 +1,5 @@
 import unittest
-import bottle
+import py3web
 from tools import api
 
 
@@ -13,7 +13,7 @@ class TestRoute(unittest.TestCase):
                 return f()
             return w
         
-        route = bottle.Route(None, None, None, d(x))
+        route = py3web.Route(None, None, None, d(x))
         self.assertEqual(route.get_undecorated_callback(), x)
         self.assertEqual(set(route.get_callback_args()), set(['a', 'b']))
 
@@ -24,7 +24,7 @@ class TestRoute(unittest.TestCase):
                 return w
             return d
 
-        route = bottle.Route(None, None, None, d2('foo')(x))
+        route = py3web.Route(None, None, None, d2('foo')(x))
         self.assertEqual(route.get_undecorated_callback(), x)
         self.assertEqual(set(route.get_callback_args()), set(['a', 'b']))
 

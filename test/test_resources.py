@@ -1,4 +1,4 @@
-from bottle import ResourceManager
+from py3web import ResourceManager
 import os.path
 import unittest
 

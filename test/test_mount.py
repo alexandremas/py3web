@@ -1,11 +1,11 @@
-import bottle
+import py3web
 from tools import ServerTestBase
-from bottle import response
+from py3web import response
 
 class TestAppMounting(ServerTestBase):
     def setUp(self):
         ServerTestBase.setUp(self)
-        self.subapp = bottle.Bottle()
+        self.subapp = py3web.Bottle()
         @self.subapp.route('/')
         @self.subapp.route('/test/:test')
         def test(test='foo'):
@@ -89,7 +89,7 @@ class TestAppMounting(ServerTestBase):
 class TestAppMerging(ServerTestBase):
     def setUp(self):
         ServerTestBase.setUp(self)
-        self.subapp = bottle.Bottle()
+        self.subapp = py3web.Bottle()
         @self.subapp.route('/')
         @self.subapp.route('/test/:test')
         def test(test='foo'):

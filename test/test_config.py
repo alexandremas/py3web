@@ -1,5 +1,5 @@
 import unittest
-from bottle import ConfigDict
+from py3web import ConfigDict
 
 class TestConfDict(unittest.TestCase):
     def test_write(self):

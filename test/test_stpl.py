@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-from bottle import SimpleTemplate, TemplateError, view, template, touni, tob
+from py3web import SimpleTemplate, TemplateError, view, template, touni, tob
 import re
 import traceback
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import bottle
+import py3web
 import sys
 import unittest
 import wsgiref
@@ -9,7 +9,7 @@ import wsgiref.validate
 import mimetypes
 import uuid
 
-from bottle import tob, BytesIO
+from py3web import tob, BytesIO
 
 def warn(msg):
     sys.stderr.write('WARNING: %s\n' % msg.strip())
@@ -19,7 +19,7 @@ def tobs(data):
     return BytesIO(tob(data))
 
 def api(introduced, deprecated=None, removed=None):
-    current    = tuple(map(int, bottle.__version__.split('-')[0].split('.')))
+    current    = tuple(map(int, py3web.__version__.split('-')[0].split('.')))
     introduced = tuple(map(int, introduced.split('.')))
     deprecated = tuple(map(int, deprecated.split('.'))) if deprecated else (99,99)
     removed    = tuple(map(int, removed.split('.')))    if removed    else (99,100)
@@ -42,7 +42,7 @@ class ServerTestBase(unittest.TestCase):
         ''' Create a new Bottle app set it as default_app '''
         self.port = 8080
         self.host = 'localhost'
-        self.app = bottle.app.push()
+        self.app = py3web.app.push()
         self.wsgiapp = wsgiref.validate.validator(self.app)
 
     def urlopen(self, path, method='GET', post='', env=None):
@@ -82,7 +82,7 @@ class ServerTestBase(unittest.TestCase):
         return self.urlopen(path, method='POST', env=env)
 
     def tearDown(self):
-        bottle.app.pop()
+        py3web.app.pop()
 
     def assertStatus(self, code, route='/', **kargs):
         self.assertEqual(code, self.urlopen(route, **kargs)['code'])
@@ -102,8 +102,8 @@ class ServerTestBase(unittest.TestCase):
         self.assertTrue(self.urlopen(route, **kargs)['header'].get(name, None))
 
     def assertInError(self, search, route='/', **kargs):
-        bottle.request.environ['wsgi.errors'].errors.seek(0)
-        err = bottle.request.environ['wsgi.errors'].errors.read()
+        py3web.request.environ['wsgi.errors'].errors.seek(0)
+        err = py3web.request.environ['wsgi.errors'].errors.read()
         if search not in err:
             self.fail('The search pattern "%s" is not included in wsgi.error: %s' % (search, err))
 

@@ -1,5 +1,5 @@
 import unittest
-from bottle import ConfigDict
+from py3web import ConfigDict
 
 class TestConfigDict(unittest.TestCase):
     def test_isadict(self):

@@ -3,8 +3,8 @@
 
 import unittest
 import sys, os.path
-import bottle
-from bottle import FileUpload, BytesIO
+import py3web
+from py3web import FileUpload, BytesIO
 import tempfile
 
 class TestFileUpload(unittest.TestCase):
@@ -29,8 +29,8 @@ class TestFileUpload(unittest.TestCase):
         self.assertFilename('.name.', 'name')
         self.assertFilename(' . na me . ', 'na-me')
         self.assertFilename('path/', 'empty')
-        self.assertFilename(bottle.tob('ümläüts$'), 'mlts')
-        self.assertFilename(bottle.touni('ümläüts$'), 'umlauts')
+        self.assertFilename(py3web.tob('ümläüts$'), 'mlts')
+        self.assertFilename(py3web.touni('ümläüts$'), 'umlauts')
         self.assertFilename('', 'empty')
 
     def test_save_buffer(self):

@@ -21,7 +21,7 @@ try:
         from gevent import monkey
         monkey.patch_all()
 
-    from bottle import route, run
+    from py3web import route, run
     route('/test', callback=lambda: 'OK')
     run(port=port, server=server, quiet=True)
 

@@ -4,23 +4,23 @@ import sys
 import os
 from distutils.core import setup
 
-if sys.version_info < (2,5):
-    raise NotImplementedError("Sorry, you need at least Python 2.5 or Python 3.x to use bottle.")
+if sys.version_info < (3,3):
+    raise NotImplementedError("Sorry, you need at least Python 3.3 to use py3web.")
 
-import bottle
+import py3web
 
-setup(name='bottle',
-      version=bottle.__version__,
-      description='Fast and simple WSGI-framework for small web-applications.',
-      long_description=bottle.__doc__,
-      author=bottle.__author__,
-      author_email='marc@gsites.de',
-      url='http://bottlepy.org/',
-      py_modules=['bottle'],
-      scripts=['bottle.py'],
+setup(name='py3web',
+      version=py3web.__version__,
+      description='Modular Pyhon 3.3+ WSGI-framework for web-applications.',
+      long_description=py3web.__doc__,
+      author=py3web.__author__,
+      author_email='alexandre@hipercenter.com',
+      url='http://py3web.hipercenter.com/',
+      py_modules=['py3web'],
+      scripts=['py3web.py'],
       license='MIT',
       platforms = 'any',
-      classifiers=['Development Status :: 4 - Beta',
+      classifiers=['Development Status :: 1 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content :: CGI Tools/Libraries',
@@ -30,11 +30,6 @@ setup(name='bottle',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Middleware',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Server',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
-        'Programming Language :: Python :: 2.5',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         ],
      )

@@ -1,12 +1,12 @@
 import unittest
 import os
-import bottle
-from bottle.ext import sqlite
+import py3web
+from py3web.ext import sqlite
 import sqlite3
 
 class SQLiteTest(unittest.TestCase):
     def setUp(self):
-        self.app = bottle.Bottle(catchall=False)
+        self.app = py3web.Bottle(catchall=False)
 
     def test_with_keyword(self):
         self.plugin = self.app.install(sqlite.Plugin())

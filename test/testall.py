@@ -32,9 +32,9 @@ if 'fast' in sys.argv:
 suite = unittest.defaultTestLoader.loadTestsFromNames(test_names)
 
 def run():
-    import bottle
+    import py3web
 
-    bottle.debug(True)
+    py3web.debug(True)
     vlevel = 2 if 'verbose' in sys.argv else 0
     result = unittest.TextTestRunner(verbosity=vlevel).run(suite)
 

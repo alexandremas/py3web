@@ -1,5 +1,5 @@
 import unittest
-from bottle import MultiDict, HeaderDict
+from py3web import MultiDict, HeaderDict
 
 class TestMultiDict(unittest.TestCase):
     def test_isadict(self):

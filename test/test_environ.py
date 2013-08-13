@@ -3,13 +3,13 @@
 
 import unittest
 import sys
-import bottle
-from bottle import request, tob, touni, tonat, json_dumps, _e, HTTPError, parse_date
+import py3web
+from py3web import request, tob, touni, tonat, json_dumps, _e, HTTPError, parse_date
 import tools
 import wsgiref.util
 import base64
 
-from bottle import BaseRequest, BaseResponse, LocalRequest
+from py3web import BaseRequest, BaseResponse, LocalRequest
 
 class TestRequest(unittest.TestCase):
 
@@ -333,7 +333,7 @@ class TestRequest(unittest.TestCase):
 
     def test_json_tobig(self):
         """ Environ: Request.json property with huge body. """
-        test = dict(a=5, tobig='x' * bottle.BaseRequest.MEMFILE_MAX)
+        test = dict(a=5, tobig='x' * py3web.BaseRequest.MEMFILE_MAX)
         e = {'CONTENT_TYPE': 'application/json'}
         wsgiref.util.setup_testing_defaults(e)
         e['wsgi.input'].write(tob(json_dumps(test)))
@@ -650,10 +650,10 @@ class TestRedirect(unittest.TestCase):
                 del args[key]
         env.update(args)
         request.bind(env)
-        bottle.response.bind()
+        py3web.response.bind()
         try:
-            bottle.redirect(target, **(query or {}))
-        except bottle.HTTPResponse:
+            py3web.redirect(target, **(query or {}))
+        except py3web.HTTPResponse:
             r = _e()
             self.assertEqual(status, r.status_code)
             self.assertTrue(r.headers)
@@ -740,21 +740,21 @@ class TestRedirect(unittest.TestCase):
     def test_redirect_preserve_cookies(self):
         env = {'SERVER_PROTOCOL':'HTTP/1.1'}
         request.bind(env)
-        bottle.response.bind()
+        py3web.response.bind()
         try:
-            bottle.response.set_cookie('xxx', 'yyy')
-            bottle.redirect('...')
-        except bottle.HTTPResponse:
+            py3web.response.set_cookie('xxx', 'yyy')
+            py3web.redirect('...')
+        except py3web.HTTPResponse:
             h = [v for (k, v) in _e().headerlist if k == 'Set-Cookie']
             self.assertEqual(h, ['xxx=yyy'])
 
 class TestWSGIHeaderDict(unittest.TestCase):
     def setUp(self):
         self.env = {}
-        self.headers = bottle.WSGIHeaderDict(self.env)
+        self.headers = py3web.WSGIHeaderDict(self.env)
 
     def test_empty(self):
-        self.assertEqual(0, len(bottle.WSGIHeaderDict({})))
+        self.assertEqual(0, len(py3web.WSGIHeaderDict({})))
 
     def test_native(self):
         self.env['HTTP_TEST_HEADER'] = 'foobar'

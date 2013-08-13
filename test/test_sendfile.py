@@ -1,5 +1,5 @@
 import unittest
-from bottle import static_file, request, response, parse_date, parse_range_header, Bottle, tob
+from py3web import static_file, request, response, parse_date, parse_range_header, Bottle, tob
 import wsgiref.util
 import os
 import tempfile

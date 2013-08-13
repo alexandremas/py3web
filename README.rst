@@ -1,23 +1,31 @@
-Bottle Web Framework
+Py3web Web Framework
 ====================
 
 .. image:: http://bottlepy.org/docs/dev/_static/logo_nav.png
-  :alt: Bottle Logo
+  :alt: Py3web Logo
   :align: right
 
-Bottle is a fast and simple micro-framework for small web applications. It
-offers request dispatching (URL routing) with URL parameter support, templates,
+Py3web aims to be a  modular framework for web applications.
+
+The core features include offers request dispatching (URL routing) with URL parameter support, templates,
 a built-in HTTP Server and adapters for many third party WSGI/HTTP-server and
 template engines - all in a single file and with no dependencies other than the
 Python Standard Library.
 
-Homepage and documentation: http://bottlepy.org/
+Additional features planned to be released as modules and are:
+
+- authentication
+- database interfaces
+- form generation and validators
+
+
+#TODO: Homepage and documentation: http://py3web.hipercenter.com/
 License: MIT (see LICENSE)
 
 Installation and Dependencies
 -----------------------------
 
-Install bottle with ``pip install bottle`` or just `download bottle.py <http://pypi.python.org/pypi/bottle>`_ and place it in your project directory. There are no (hard) dependencies other than the Python Standard Library.
+##TODO: Install bottle with ``pip install py3web`` or just `download at TODO and place it in your project directory. There are no (hard) dependencies other than the Python Standard Library.
 
 
 Example
@@ -25,7 +33,7 @@ Example
 
 .. code-block:: python
 
-    from bottle import route, run
+    from py3web import route, run
 
     @route('/hello/<name>')
     def hello(name):

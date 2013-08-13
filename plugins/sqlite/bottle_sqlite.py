@@ -34,7 +34,7 @@ __license__ = 'MIT'
 
 import sqlite3
 import inspect
-from bottle import HTTPError, PluginError
+from py3web import HTTPError, PluginError
 
 
 class SQLitePlugin(object):

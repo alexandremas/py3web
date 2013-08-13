@@ -1,22 +1,30 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Bottle is a fast and simple micro-framework for small web applications. It
-offers request dispatching (Routes) with url parameter support, templates,
+Py3web aims to be a  modular framework for web applications.
+
+The core features include offers request dispatching (URL routing) with URL parameter support, templates,
 a built-in HTTP Server and adapters for many third party WSGI/HTTP-server and
 template engines - all in a single file and with no dependencies other than the
 Python Standard Library.
 
-Homepage and documentation: http://bottlepy.org/
+Additional features planned to be released as modules and are:
 
-Copyright (c) 2012, Marcel Hellkamp.
+- authentication
+- database interfaces
+- form generation and validators
+
+
+#TODO: Homepage and documentation: http://py3web.hipercenter.com/
+Copyright (c) 2013, Alexandre Andrade.
 License: MIT (see LICENSE for details)
+
 """
 
 from __future__ import with_statement
 
-__author__ = 'Marcel Hellkamp'
-__version__ = '0.12-dev'
+__author__ = 'Alexandre Andrade'
+__version__ = '0.O.01-dev'
 __license__ = 'MIT'
 
 # The gevent server adapter needs to patch some modules before they are imported
@@ -59,75 +67,47 @@ except ImportError: # pragma: no cover
 # It ain't pretty but it works... Sorry for the mess.
 
 py   = sys.version_info
-py3k = py >= (3, 0, 0)
-py25 = py <  (2, 6, 0)
-py31 = (3, 1, 0) <= py < (3, 2, 0)
+py33 = py >= (3, 3, 0)
 
+##TODO: REFACTOR
 # Workaround for the missing "as" keyword in py3k.
 def _e(): return sys.exc_info()[1]
 
 # Workaround for the "print is a keyword/function" Python 2/3 dilemma
 # and a fallback for mod_wsgi (resticts stdout/err attribute access)
-try:
-    _stdout, _stderr = sys.stdout.write, sys.stderr.write
-except IOError:
-    _stdout = lambda x: sys.stdout.write(x)
-    _stderr = lambda x: sys.stderr.write(x)
+##TODO: REFACTOR
+_stdout = lambda x: sys.stdout.write(x)
+_stderr = lambda x: sys.stderr.write(x)
 
 # Lots of stdlib and builtin differences.
-if py3k:
-    import http.client as httplib
-    import _thread as thread
-    from urllib.parse import urljoin, SplitResult as UrlSplitResult
-    from urllib.parse import urlencode, quote as urlquote, unquote as urlunquote
-    urlunquote = functools.partial(urlunquote, encoding='latin1')
-    from http.cookies import SimpleCookie
-    from collections import MutableMapping as DictMixin
-    import pickle
-    from io import BytesIO
-    from configparser import ConfigParser
-    basestring = str
-    unicode = str
-    json_loads = lambda s: json_lds(touni(s))
-    callable = lambda x: hasattr(x, '__call__')
-    imap = map
-    def _raise(*a): raise a[0](a[1]).with_traceback(a[2])
-else: # 2.x
-    import httplib
-    import thread
-    from urlparse import urljoin, SplitResult as UrlSplitResult
-    from urllib import urlencode, quote as urlquote, unquote as urlunquote
-    from Cookie import SimpleCookie
-    from itertools import imap
-    import cPickle as pickle
-    from StringIO import StringIO as BytesIO
-    from ConfigParser import SafeConfigParser as ConfigParser
-    if py25:
-        msg = "Python 2.5 support may be dropped in future versions of Bottle."
-        warnings.warn(msg, DeprecationWarning)
-        from UserDict import DictMixin
-        def next(it): return it.next()
-        bytes = str
-    else: # 2.6, 2.7
-        from collections import MutableMapping as DictMixin
-    json_loads = json_lds
-    eval(compile('def _raise(*a): raise a[0], a[1], a[2]', '<py3fix>', 'exec'))
+
+import http.client as httplib
+import _thread as thread
+from urllib.parse import urljoin, SplitResult as UrlSplitResult
+from urllib.parse import urlencode, quote as urlquote, unquote as urlunquote
+urlunquote = functools.partial(urlunquote, encoding='latin1')
+from http.cookies import SimpleCookie
+from collections import MutableMapping as DictMixin
+import pickle
+from io import BytesIO
+from configparser import ConfigParser
+basestring = str
+unicode = str
+json_loads = lambda s: json_lds(touni(s))
+callable = lambda x: hasattr(x, '__call__')
+imap = map
+def _raise(*a): raise a[0](a[1]).with_traceback(a[2])
+
 
 # Some helpers for string/byte handling
 def tob(s, enc='utf8'):
     return s.encode(enc) if isinstance(s, unicode) else bytes(s)
 def touni(s, enc='utf8', err='strict'):
     return s.decode(enc, err) if isinstance(s, bytes) else unicode(s)
-tonat = touni if py3k else tob
-
-# 3.2 fixes cgi.FieldStorage to accept bytes (which makes a lot of sense).
-# 3.1 needs a workaround.
-if py31:
-    from io import TextIOWrapper
-    class NCTextIOWrapper(TextIOWrapper):
-        def close(self): pass # Keep wrapped buffer open.
+tonat = touni
 
 
+#TODO: check if needed
 # A bug in functools causes it to break if the wrapper is an instance method
 def update_wrapper(wrapper, wrapped, *a, **ka):
     try: functools.update_wrapper(wrapper, wrapped, *a, **ka)
@@ -208,7 +188,7 @@ class lazy_attribute(object):
 ###############################################################################
 
 
-class BottleException(Exception):
+class py3webException(Exception):
     """ A base class for exceptions used by bottle. """
     pass
 
@@ -222,11 +202,11 @@ class BottleException(Exception):
 ###############################################################################
 
 
-class RouteError(BottleException):
+class RouteError(py3webException):
     """ This is a base class for all routing related exceptions """
 
 
-class RouteReset(BottleException):
+class RouteReset(py3webException):
     """ If raised by a plugin or request handler, the route is reset and all
         plugins are re-applied. """
 
@@ -464,11 +444,11 @@ class Route(object):
         self.callback = callback
         #: The name of the route (if specified) or ``None``.
         self.name = name or None
-        #: A list of route-specific plugins (see :meth:`Bottle.route`).
+        #: A list of route-specific plugins (see :meth:`py3web.route`).
         self.plugins = plugins or []
-        #: A list of plugins to not apply to this route (see :meth:`Bottle.route`).
+        #: A list of plugins to not apply to this route (see :meth:`py3web.route`).
         self.skiplist = skiplist or []
-        #: Additional keyword arguments passed to the :meth:`Bottle.route`
+        #: Additional keyword arguments passed to the :meth:`py3web.route`
         #: decorator are stored in this dictionary. Used for route-specific
         #: plugin configuration and meta-data.
         self.config = ConfigDict().load_dict(config)
@@ -532,10 +512,9 @@ class Route(object):
         ''' Return the callback. If the callback is a decorated function, try to
             recover the original function. '''
         func = self.callback
-        func = getattr(func, '__func__' if py3k else 'im_func', func)
-        closure_attr = '__closure__' if py3k else 'func_closure'
-        while hasattr(func, closure_attr) and getattr(func, closure_attr):
-            func = getattr(func, closure_attr)[0].cell_contents
+        func = getattr(func, '__func__', func)
+        while hasattr(func,'__closure__') and getattr(func, '__closure__'):
+            func = getattr(func, '__closure__')[0].cell_contents
         return func
 
     def get_callback_args(self):
@@ -565,8 +544,8 @@ class Route(object):
 ###############################################################################
 
 
-class Bottle(object):
-    """ Each Bottle object represents a single, distinct web application and
+class py3web(object):
+    """ Each py3web object represents a single, distinct web application and
         consists of routes, callbacks, plugins, resources and configuration.
         Instances are callable WSGI applications.
 
@@ -616,7 +595,7 @@ class Bottle(object):
             after_request
                 Executed once after each request regardless of its outcome.
             app_reset
-                Called whenever :meth:`Bottle.reset` is called.
+                Called whenever :meth:`py3web.reset` is called.
         '''
         if name in self.__hook_reversed:
             self._hooks[name].insert(0, func)
@@ -642,19 +621,19 @@ class Bottle(object):
         return decorator
 
     def mount(self, prefix, app, **options):
-        ''' Mount an application (:class:`Bottle` or plain WSGI) to a specific
+        ''' Mount an application (:class:`py3web` or plain WSGI) to a specific
             URL prefix. Example::
 
                 root_app.mount('/admin/', admin_app)
 
             :param prefix: path prefix or `mount-point`. If it ends in a slash,
                 that slash is mandatory.
-            :param app: an instance of :class:`Bottle` or a WSGI application.
+            :param app: an instance of :class:`py3web` or a WSGI application.
 
             All other parameters are passed to the underlying :meth:`route` call.
         '''
         if isinstance(app, basestring):
-            depr('Parameter order of Bottle.mount() changed.', True) # 0.10
+            depr('Parameter order of py3web.mount() changed.', True) # 0.10
 
         segments = [p for p in prefix.split('/') if p]
         if not segments: raise ValueError('Empty path prefix.')
@@ -690,11 +669,11 @@ class Bottle(object):
             self.route('/' + '/'.join(segments), **options)
 
     def merge(self, routes):
-        ''' Merge the routes of another :class:`Bottle` application or a list of
+        ''' Merge the routes of another :class:`py3web` application or a list of
             :class:`Route` objects into this application. The routes keep their
             'owner', meaning that the :data:`Route.app` attribute is not
             changed. '''
-        if isinstance(routes, Bottle):
+        if isinstance(routes, py3web):
             routes = routes.routes
         for route in routes:
             self.add_route(route)
@@ -835,7 +814,7 @@ class Bottle(object):
     def handle(self, path, method='GET'):
         """ (deprecated) Execute the first matching route callback and return
             the result. :exc:`HTTPResponse` exceptions are caught and returned.
-            If :attr:`Bottle.catchall` is true, other exceptions are caught as
+            If :attr:`py3web.catchall` is true, other exceptions are caught as
             well and returned as :exc:`HTTPError` instances (500).
         """
         depr("This method will change semantics in 0.10. Try to avoid it.")
@@ -974,7 +953,7 @@ class Bottle(object):
             return [tob(err)]
 
     def __call__(self, environ, start_response):
-        ''' Each instance of :class:'Bottle' is a WSGI application. '''
+        ''' Each instance of :class:'py3web' is a WSGI application. '''
         return self.wsgi(environ, start_response)
 
 
@@ -1011,7 +990,7 @@ class BaseRequest(object):
 
     @DictProperty('environ', 'bottle.app', read_only=True)
     def app(self):
-        ''' Bottle application handling this request. '''
+        ''' py3web application handling this request. '''
         raise RuntimeError('This request is not connected to an application.')
 
     @DictProperty('environ', 'bottle.route', read_only=True)
@@ -1184,11 +1163,7 @@ class BaseRequest(object):
         for key in ('REQUEST_METHOD', 'CONTENT_TYPE', 'CONTENT_LENGTH'):
             if key in self.environ: safe_env[key] = self.environ[key]
         args = dict(fp=self.body, environ=safe_env, keep_blank_values=True)
-        if py31:
-            args['fp'] = NCTextIOWrapper(args['fp'], encoding='latin1',
-                                         newline='\n')
-        elif py3k:
-            args['encoding'] = 'latin1'
+        args['encoding'] = 'latin1'
         data = cgi.FieldStorage(**args)
         data = data.list or []
         if len(data) > self.MAX_PARAMS:
@@ -1667,7 +1642,7 @@ Request = BaseRequest
 Response = BaseResponse
 
 
-class HTTPResponse(Response, BottleException):
+class HTTPResponse(Response, py3webException):
     def __init__(self, body='', status=None, headers=None,
                  header=None, **more_headers):
         if header or 'output' in more_headers:
@@ -1707,7 +1682,7 @@ class HTTPError(HTTPResponse):
 # Plugins ######################################################################
 ###############################################################################
 
-class PluginError(BottleException): pass
+class PluginError(py3webException): pass
 
 
 class JSONPlugin(object):
@@ -1812,7 +1787,7 @@ class MultiDict(DictMixin):
     def __setitem__(self, key, value): self.append(key, value)
     def keys(self): return self.dict.keys()
 
-    if py3k:
+    if py33:
         def values(self): return (v[-1] for v in self.dict.values())
         def items(self): return ((k, v[-1]) for k, v in self.dict.items())
         def allitems(self):
@@ -2114,9 +2089,9 @@ class AppStack(list):
         return self[-1]
 
     def push(self, value=None):
-        """ Add a new :class:`Bottle` instance to the stack """
-        if not isinstance(value, Bottle):
-            value = Bottle()
+        """ Add a new :class:`py3web` instance to the stack """
+        if not isinstance(value, py3web):
+            value = py3web()
         self.append(value)
         return value
 
@@ -2569,12 +2544,12 @@ def auth_basic(check, realm="private", text="Access denied"):
     return decorator
 
 
-# Shortcuts for common Bottle methods.
+# Shortcuts for common py3web methods.
 # They all refer to the current default application.
 
 def make_default_app_wrapper(name):
     ''' Return a callable that relays calls to the current default app. '''
-    @functools.wraps(getattr(Bottle, name))
+    @functools.wraps(getattr(py3web, name))
     def wrapper(*a, **ka):
         return getattr(app(), name)(*a, **ka)
     return wrapper
@@ -2642,10 +2617,13 @@ class WSGIRefServer(ServerAdapter):
                 return self.client_address[0]
             def log_request(*args, **kw):
                 if not self.quiet:
-                    return super(FixedHandler, self).log_request(*args, **kw)
+                    #TODO: check how implement log-request without error
+                    #return super(FixedHandler).log_request(*args, **kw)
+                    pass
         self.options['handler_class'] = FixedHandler
         srv = make_server(self.host, self.port, handler, **self.options)
         srv.serve_forever()
+
 
 
 class CherryPyServer(ServerAdapter):
@@ -2691,7 +2669,7 @@ class FapwsServer(ServerAdapter):
             port = str(port)
         evwsgi.start(self.host, port)
         # fapws3 never releases the GIL. Complain upstream. I tried. No luck.
-        if 'BOTTLE_CHILD' in os.environ and not self.quiet:
+        if 'PY3WEB_CHILD' in os.environ and not self.quiet:
             _stderr("WARNING: Auto-reloading does not work with Fapws3.\n")
             _stderr("         (Fapws3 breaks python thread support)\n")
         evwsgi.set_base_module(base)
@@ -2757,7 +2735,7 @@ class GeventServer(ServerAdapter):
     def run(self, handler):
         from gevent import wsgi, pywsgi, local
         if not isinstance(_lctx, local.local):
-            msg = "Bottle requires gevent.monkey.patch_all() (before import)"
+            msg = "py3web requires gevent.monkey.patch_all() (before import)"
             raise RuntimeError(msg)
         if not self.options.pop('fast', None): wsgi = pywsgi
         self.options['log'] = None if self.quiet else 'default'
@@ -2872,7 +2850,7 @@ def load(target, **namespace):
 
 
 def load_app(target):
-    """ Load a bottle application from a module and make sure that the import
+    """ Load a py3web application from a module and make sure that the import
         does not affect the current default application, but returns a separate
         application object. See :func:`load` for the target parameter. """
     global NORUN; NORUN, nr_old = True, NORUN
@@ -2905,16 +2883,16 @@ def run(app=None, server='wsgiref', host='127.0.0.1', port=8080,
         :param options: Options passed to the server adapter.
      """
     if NORUN: return
-    if reloader and not os.environ.get('BOTTLE_CHILD'):
+    if reloader and not os.environ.get('PY3WEB_CHILD'):
         try:
             lockfile = None
-            fd, lockfile = tempfile.mkstemp(prefix='bottle.', suffix='.lock')
+            fd, lockfile = tempfile.mkstemp(prefix='py3web.', suffix='.lock')
             os.close(fd) # We only need this file to exist. We never write to it
             while os.path.exists(lockfile):
                 args = [sys.executable] + sys.argv
                 environ = os.environ.copy()
-                environ['BOTTLE_CHILD'] = 'true'
-                environ['BOTTLE_LOCKFILE'] = lockfile
+                environ['PY3WEB_CHILD'] = 'true'
+                environ['PY3WEB_LOCKFILE'] = lockfile
                 p = subprocess.Popen(args, env=environ)
                 while p.poll() is None: # Busy wait...
                     os.utime(lockfile, None) # I am alive!
@@ -2951,12 +2929,12 @@ def run(app=None, server='wsgiref', host='127.0.0.1', port=8080,
 
         server.quiet = server.quiet or quiet
         if not server.quiet:
-            _stderr("Bottle v%s server starting up (using %s)...\n" % (__version__, repr(server)))
+            _stderr("py3web v%s server starting up (using %s)...\n" % (__version__, repr(server)))
             _stderr("Listening on http://%s:%d/\n" % (server.host, server.port))
             _stderr("Hit Ctrl-C to quit.\n\n")
 
         if reloader:
-            lockfile = os.environ.get('BOTTLE_LOCKFILE')
+            lockfile = os.environ.get('PY3WEB_LOCKFILE')
             bgcheck = FileCheckerThread(lockfile, interval)
             with bgcheck:
                 server.run(app)
@@ -3511,7 +3489,7 @@ ERROR_PAGE_TEMPLATE = """
         </body>
     </html>
 %%except ImportError:
-    <b>ImportError:</b> Could not generate the error page. Please add bottle to
+    <b>ImportError:</b> Could not generate the error page. Please add py3web to
     the import path.
 %%end
 """ % __name__
@@ -3525,22 +3503,22 @@ request = LocalRequest()
 #: HTTP response for the *current* request.
 response = LocalResponse()
 
-#: A thread-safe namespace. Not used by Bottle.
+#: A thread-safe namespace. Not used by py3web.
 local = threading.local()
 
-# Initialize app stack (create first empty Bottle app)
+# Initialize app stack (create first empty py3web app)
 # BC: 0.6.4 and needed for run()
 app = default_app = AppStack()
 app.push()
 
 #: A virtual package that redirects import statements.
-#: Example: ``import bottle.ext.sqlite`` actually imports `bottle_sqlite`.
-ext = _ImportRedirect('bottle.ext' if __name__ == '__main__' else __name__+".ext", 'bottle_%s').module
+#: Example: ``import py3web.ext.sqlite`` actually imports `py3web_sqlite`.
+ext = _ImportRedirect('py3web.ext' if __name__ == '__main__' else __name__+".ext", 'py3web_%s').module
 
 if __name__ == '__main__':
     opt, args, parser = _cmd_options, _cmd_args, _cmd_parser
     if opt.version:
-        _stdout('Bottle %s\n'%__version__)
+        _stdout('py3web %s\n'%__version__)
         sys.exit(0)
     if not args:
         parser.print_help()
@@ -3548,7 +3526,7 @@ if __name__ == '__main__':
         sys.exit(1)
 
     sys.path.insert(0, '.')
-    sys.modules.setdefault('bottle', sys.modules['__main__'])
+    sys.modules.setdefault('py3web', sys.modules['__main__'])
 
     host, port = (opt.bind or 'localhost'), 8080
     if ':' in host:

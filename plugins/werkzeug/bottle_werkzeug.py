@@ -38,7 +38,7 @@ __license__ = 'MIT'
 
 import werkzeug
 from werkzeug import *
-import bottle
+import py3web
 
 
 class WerkzeugDebugger(DebuggedApplication):
@@ -46,7 +46,7 @@ class WerkzeugDebugger(DebuggedApplication):
         :data:`bottle.DEBUG` setting. """
 
     def __call__(self, environ, start_response):
-        if bottle.DEBUG:
+        if py3web.DEBUG:
             return DebuggedApplication.__call__(self, environ, start_response)
         return self.app(environ, start_response)
 
@@ -74,14 +74,14 @@ class WerkzeugPlugin(object):
 
     def apply(self, callback, route):
         def wrapper(*a, **ka):
-            environ = bottle.request.environ
-            bottle.local.werkzueg_request = self.request_class(environ)
+            environ = py3web.request.environ
+            py3web.local.werkzueg_request = self.request_class(environ)
             try:
                 rv = callback(*a, **ka)
             except werkzeug.exceptions.HTTPException, e:
                 rv = e.get_response(environ)
             if isinstance(rv, werkzeug.BaseResponse):
-                rv = bottle.HTTPResponse(rv.iter_encoded(), rv.status_code, rv.header_list)
+                rv = py3web.HTTPResponse(rv.iter_encoded(), rv.status_code, rv.header_list)
             return rv
         return wrapper
 
@@ -89,7 +89,7 @@ class WerkzeugPlugin(object):
     def request(self):
         ''' Return a local proxy to the current :class:`werkzeug.Request`
             instance.'''
-        return werkzeug.LocalProxy(lambda: bottle.local.werkzueg_request)
+        return werkzeug.LocalProxy(lambda: py3web.local.werkzueg_request)
 
     def __getattr__(self, name):
         ''' Convenient access to werkzeug module contents. '''
