@@ -1,5 +1,5 @@
 ﻿.. highlight:: python
-.. currentmodule:: bottle
+.. currentmodule:: py3web
 
 ===========================
 Release Notes and Changelog
@@ -120,7 +120,7 @@ These changes may break compatibility with previous versions.
 * The ``BreakTheBottle`` exception is gone. Use :class:`HTTPResponse` instead.
 * The :class:`SimpleTemplate` engine escapes HTML special characters in ``{{bad_html}}`` expressions automatically. Use the new ``{{!good_html}}`` syntax to get old behaviour (no escaping).
 * The :class:`SimpleTemplate` engine returns unicode strings instead of lists of byte strings.
-* ``bottle.optimize()`` and the automatic route optimization is obsolete.
+* ``py3web.optimize()`` and the automatic route optimization is obsolete.
 * Some functions and attributes were renamed:
 
   * :attr:`Request._environ` is now :attr:`Request.environ`

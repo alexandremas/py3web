@@ -8,5 +8,5 @@
 dist/
 build/
 MANIFEST
-bottle.egg-info/
+py3web.egg-info/
 .htmlcoverage/

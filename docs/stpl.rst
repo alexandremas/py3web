@@ -2,7 +2,7 @@
 SimpleTemplate Engine
 ======================
 
-.. currentmodule:: bottle
+.. currentmodule:: py3web
 
 Bottle comes with a fast, powerful and easy to learn built-in template engine called *SimpleTemplate* or *stpl* for short. It is the default engine used by the :func:`view` and :func:`template` helpers but can be used as a stand-alone general purpose template engine too. This document explains the template syntax and shows examples for common use cases.
 
@@ -10,14 +10,14 @@ Bottle comes with a fast, powerful and easy to learn built-in template engine ca
 
 :class:`SimpleTemplate` implements the :class:`BaseTemplate` API::
 
-   >>> from bottle import SimpleTemplate
+   >>> from py3web import SimpleTemplate
    >>> tpl = SimpleTemplate('Hello {{name}}!')
    >>> tpl.render(name='World')
    u'Hello World!'
 
 In this document we use the :func:`template` helper in examples for the sake of simplicity::
 
-   >>> from bottle import template
+   >>> from py3web import template
    >>> template('Hello {{name}}!', name='World')
    u'Hello World!'
 
@@ -213,7 +213,7 @@ variables in different ways::
       <p>By {{ author }}</p>
     % end
 
-.. currentmodule:: bottle
+.. currentmodule:: py3web
 
 
 :class:`SimpleTemplate` API

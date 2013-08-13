@@ -1,7 +1,7 @@
 Developer Notes
 =================
 
-This document is intended for developers and package maintainers interested in the bottle development and release workflow. If you want to contribute, you are just right!
+This document is intended for developers and package maintainers interested in the py3web development and release workflow. If you want to contribute, you are just right!
 
 
 Get involved
@@ -9,26 +9,26 @@ Get involved
 
 There are several ways to join the community and stay up to date. Here are some of them:
 
-* **Mailing list**: Join our mailing list by sending an email to `bottlepy+subscribe@googlegroups.com <mailto:bottlepy+subscribe@googlegroups.com>`_ (no google account required).
-* **Twitter**: `Follow us on Twitter <twitter.com/bottlepy>`_ or search for the `#bottlepy <https://twitter.com/#!/search/%23bottlepy>`_ tag.
-* **IRC**: Join `#bottlepy on irc.freenode.net <irc://irc.freenode.net/bottlepy>`_ or use the `web chat interface <http://webchat.freenode.net/?channels=bottlepy>`_.
+* **Mailing list**: Join our mailing list by sending an email to `py3webpy+subscribe@googlegroups.com <mailto:py3webpy+subscribe@googlegroups.com>`_ (no google account required).
+* **Twitter**: `Follow us on Twitter <twitter.com/py3webpy>`_ or search for the `#py3webpy <https://twitter.com/#!/search/%23py3webpy>`_ tag.
+* **IRC**: Join `#py3webpy on irc.freenode.net <irc://irc.freenode.net/py3webpy>`_ or use the `web chat interface <http://webchat.freenode.net/?channels=py3webpy>`_.
 * **Google plus**: We sometimes `blog about Bottle, releases and technical stuff <https://plus.google.com/b/104025895326575643538/104025895326575643538/posts>`_ on our Google+ page.
 
 
 Get the Sources
 ---------------
 
-The bottle `development repository <https://github.com/defnull/bottle>`_ and the `issue tracker <https://github.com/defnull/bottle/issues>`_ are both hosted at `github <https://github.com/defnull/bottle>`_. If you plan to contribute, it is a good idea to create an account there and fork the main repository. This way your changes and ideas are visible to other developers and can be discussed openly. Even without an account, you can clone the repository or just download the latest development version as a source archive.
+The py3web `development repository <https://github.com/defnull/py3web>`_ and the `issue tracker <https://github.com/defnull/py3web/issues>`_ are both hosted at `github <https://github.com/defnull/py3web>`_. If you plan to contribute, it is a good idea to create an account there and fork the main repository. This way your changes and ideas are visible to other developers and can be discussed openly. Even without an account, you can clone the repository or just download the latest development version as a source archive.
 
-* **git:** ``git clone git://github.com/defnull/bottle.git``
-* **git/https:** ``git clone https://github.com/defnull/bottle.git``
-* **Download:** Development branch as `tar archive <http://github.com/defnull/bottle/tarball/master>`_ or `zip file <http://github.com/defnull/bottle/zipball/master>`_.
+* **git:** ``git clone git://github.com/defnull/py3web.git``
+* **git/https:** ``git clone https://github.com/defnull/py3web.git``
+* **Download:** Development branch as `tar archive <http://github.com/defnull/py3web/tarball/master>`_ or `zip file <http://github.com/defnull/py3web/zipball/master>`_.
 
 
 Releases and Updates
 --------------------
 
-Bottle is released at irregular intervals and distributed through `PyPI <http://pypi.python.org/pypi/bottle>`_. Release candidates and bugfix-revisions of outdated releases are only available from the git repository mentioned above. Some Linux distributions may offer packages for outdated releases, though.
+Bottle is released at irregular intervals and distributed through `PyPI <http://pypi.python.org/pypi/py3web>`_. Release candidates and bugfix-revisions of outdated releases are only available from the git repository mentioned above. Some Linux distributions may offer packages for outdated releases, though.
 
 The Bottle version number splits into three parts (**major.minor.revision**). These are *not* used to promote new features but to indicate important bug-fixes and/or API changes. Critical bugs are fixed in at least the two latest minor releases and announced in all available channels (mailinglist, twitter, github). Non-critical bugs or features are not guaranteed to be backported. This may change in the future, through.
 
@@ -98,14 +98,14 @@ You need a recent version of Sphinx to build the documentation. The recommended 
   virtualenv --no-site-dependencies venv
   ./venv/pip install -U sphinx
 
-  # Clone or download bottle from github
-  git clone https://github.com/defnull/bottle.git
+  # Clone or download py3web from github
+  git clone https://github.com/defnull/py3web.git
 
   # Activate build environment
   source ./venv/bin/activate
 
   # Build HTML docs
-  cd bottle/docs
+  cd py3web/docs
   make html
 
   # Optional: Install prerequisites for PDF generation
@@ -124,16 +124,16 @@ GIT Workflow Examples
 
 The following examples assume that you have an (free) `github account <https://github.com>`_. This is not mandatory, but makes things a lot easier.
 
-First of all you need to create a fork (a personal clone) of the official repository. To do this, you simply click the "fork" button on the `bottle project page <https://github.com/defnull/bottle>`_. When the fork is done, you will be presented with a short introduction to your new repository.
+First of all you need to create a fork (a personal clone) of the official repository. To do this, you simply click the "fork" button on the `py3web project page <https://github.com/defnull/py3web>`_. When the fork is done, you will be presented with a short introduction to your new repository.
 
 The fork you just created is hosted at github and read-able by everyone, but write-able only by you. Now you need to clone the fork locally to actually make changes to it. Make sure you use the private (read-write) URL and *not* the public (read-only) one::
 
-  git clone git@github.com:your_github_account/bottle.git
+  git clone git@github.com:your_github_account/py3web.git
 
-Once the clone is complete your repository will have a remote named "origin" that points to your fork on github. Don’t let the name confuse you, this does not point to the original bottle repository, but to your own fork. To keep track of the official repository, add another remote named "upstream"::
+Once the clone is complete your repository will have a remote named "origin" that points to your fork on github. Don’t let the name confuse you, this does not point to the original py3web repository, but to your own fork. To keep track of the official repository, add another remote named "upstream"::
 
-  cd bottle
-  git remote add upstream git://github.com/defnull/bottle.git
+  cd py3web
+  git remote add upstream git://github.com/defnull/py3web.git
   git fetch upstream
 
 Note that "upstream" is a public clone URL, which is read-only. You cannot push changes directly to it. Instead, we will pull from your public repository. This is described later.

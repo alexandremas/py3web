@@ -1,7 +1,7 @@
 Py3web Web Framework
 ====================
 
-.. image:: http://bottlepy.org/docs/dev/_static/logo_nav.png
+.. image:: http://py3webpy.org/docs/dev/_static/logo_nav.png
   :alt: Py3web Logo
   :align: right
 
@@ -25,7 +25,7 @@ License: MIT (see LICENSE)
 Installation and Dependencies
 -----------------------------
 
-##TODO: Install bottle with ``pip install py3web`` or just `download at TODO and place it in your project directory. There are no (hard) dependencies other than the Python Standard Library.
+##TODO: Install py3web with ``pip install py3web`` or just `download at TODO and place it in your project directory. There are no (hard) dependencies other than the Python Standard Library.
 
 
 Example

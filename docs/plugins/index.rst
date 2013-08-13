@@ -1,4 +1,4 @@
-.. module:: bottle
+.. module:: py3web
 
 =========================
 List of available Plugins
@@ -11,43 +11,43 @@ Have a look at :ref:`plugins` for general questions about plugins (installation,
 `Bottle-Cork <http://cork.firelet.net/>`_
 	Cork provides a simple set of methods to implement Authentication and Authorization in web applications based on Bottle.
 
-`Bottle-Extras <http://pypi.python.org/pypi/bottle-extras/>`_
-	Meta package to install the bottle plugin collection.
+`Bottle-Extras <http://pypi.python.org/pypi/py3web-extras/>`_
+	Meta package to install the py3web plugin collection.
 
-`Bottle-Flash <http://pypi.python.org/pypi/bottle-flash/>`_
-	flash plugin for bottle
+`Bottle-Flash <http://pypi.python.org/pypi/py3web-flash/>`_
+	flash plugin for py3web
 
-`Bottle-Hotqueue <http://pypi.python.org/pypi/bottle-hotqueue/>`_
+`Bottle-Hotqueue <http://pypi.python.org/pypi/py3web-hotqueue/>`_
 	FIFO Queue for Bottle built upon redis
 
 `Macaron <http://nobrin.github.com/macaron/webapp.html>`_
 	Macaron is an object-relational mapper (ORM) for SQLite.
 
-`Bottle-Memcache <http://pypi.python.org/pypi/bottle-memcache/>`_
+`Bottle-Memcache <http://pypi.python.org/pypi/py3web-memcache/>`_
 	Memcache integration for Bottle.
 
-`Bottle-MongoDB <http://pypi.python.org/pypi/bottle-mongodb/>`_
+`Bottle-MongoDB <http://pypi.python.org/pypi/py3web-mongodb/>`_
 	MongoDB integration for Bottle
 
-`Bottle-Redis <http://pypi.python.org/pypi/bottle-redis/>`_
+`Bottle-Redis <http://pypi.python.org/pypi/py3web-redis/>`_
 	Redis integration for Bottle.
 
-`Bottle-Renderer <http://pypi.python.org/pypi/bottle-renderer/>`_
-	Renderer plugin for bottle
+`Bottle-Renderer <http://pypi.python.org/pypi/py3web-renderer/>`_
+	Renderer plugin for py3web
 
-`Bottle-Servefiles <http://pypi.python.org/pypi/bottle-servefiles/>`_
-	A reusable app that serves static files for bottle apps
+`Bottle-Servefiles <http://pypi.python.org/pypi/py3web-servefiles/>`_
+	A reusable app that serves static files for py3web apps
 
-`Bottle-Sqlalchemy <http://pypi.python.org/pypi/bottle-sqlalchemy/>`_
+`Bottle-Sqlalchemy <http://pypi.python.org/pypi/py3web-sqlalchemy/>`_
 	SQLAlchemy integration for Bottle.
 
-`Bottle-Sqlite <http://pypi.python.org/pypi/bottle-sqlite/>`_
+`Bottle-Sqlite <http://pypi.python.org/pypi/py3web-sqlite/>`_
 	SQLite3 database integration for Bottle.
 
-`Bottle-Web2pydal <http://pypi.python.org/pypi/bottle-web2pydal/>`_
+`Bottle-Web2pydal <http://pypi.python.org/pypi/py3web-web2pydal/>`_
 	Web2py Dal integration for Bottle.
 
-`Bottle-Werkzeug <http://pypi.python.org/pypi/bottle-werkzeug/>`_
+`Bottle-Werkzeug <http://pypi.python.org/pypi/py3web-werkzeug/>`_
 	Integrates the `werkzeug` library (alternative request and response objects, advanced debugging middleware and more).
 
 Plugins listed here are not part of Bottle or the Bottle project, but developed and maintained by third parties.

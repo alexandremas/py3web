@@ -26,7 +26,7 @@
 Deployment
 ================================================================================
 
-The bottle :func:`run` function, when called without any parameters, starts a local development server on port 8080. You can access and test your application via http://localhost:8080/ if you are on the same host.
+The py3web :func:`run` function, when called without any parameters, starts a local development server on port 8080. You can access and test your application via http://localhost:8080/ if you are on the same host.
 
 To get your application available to the outside world, specify the IP of the interface the server should listen to (e.g. ``run(host='192.168.0.1')``) or let the server listen to all interfaces at once (e.g. ``run(host='0.0.0.0')``). The listening port can be changed in a similar way, but you need root or admin rights to choose a port below 1024. Port 80 is the standard for HTTP servers::
 
@@ -35,7 +35,7 @@ To get your application available to the outside world, specify the IP of the in
 Server Options
 ================================================================================
 
-The built-in default server is based on `wsgiref WSGIServer <http://docs.python.org/library/wsgiref.html#module-wsgiref.simple_server>`_. This non-threading HTTP server is perfectly fine for development and early production, but may become a performance bottleneck when server load increases. There are three ways to eliminate this bottleneck:
+The built-in default server is based on `wsgiref WSGIServer <http://docs.python.org/library/wsgiref.html#module-wsgiref.simple_server>`_. This non-threading HTTP server is perfectly fine for development and early production, but may become a performance py3webneck when server load increases. There are three ways to eliminate this py3webneck:
 
 * Use a different server that is either multi-threaded or asynchronous.
 * Start multiple server processes and spread the load with a load-balancer.
@@ -52,7 +52,7 @@ Switching the Server Backend
 
 The easiest way to increase performance is to install a multi-threaded server library like paste_ or cherrypy_ and tell Bottle to use that instead of the single-threaded server::
 
-    bottle.run(server='paste')
+    py3web.run(server='paste')
 
 Bottle ships with a lot of ready-to-use adapters for the most common WSGI servers and automates the setup process. Here is an incomplete list:
 
@@ -83,7 +83,7 @@ The full list is available through :data:`server_names`.
 
 If there is no adapter for your favorite server or if you need more control over the server setup, you may want to start the server manually. Refer to the server documentation on how to run WSGI applications. Here is an example for paste_::
 
-    application = bottle.default_app()
+    application = py3web.default_app()
     from paste import httpserver
     httpserver.serve(application, host='0.0.0.0', port=80)
 
@@ -101,10 +101,10 @@ File ``/var/www/yourapp/app.wsgi``::
     # Change working directory so relative paths (and template lookup) work again
     os.chdir(os.path.dirname(__file__))
     
-    import bottle
-    # ... build or import your bottle application here ...
-    # Do NOT use bottle.run() with mod_wsgi
-    application = bottle.default_app()
+    import py3web
+    # ... build or import your py3web application here ...
+    # Do NOT use py3web.run() with mod_wsgi
+    application = py3web.default_app()
 
 The Apache configuration may look like this::
 
@@ -131,7 +131,7 @@ Google AppEngine
 
 The ``gae`` server adapter is used to run applications on Google App Engine. It works similar to the ``cgi`` adapter in that it does not start a new HTTP server, but prepares and optimizes your application for Google App Engine and makes sure it conforms to their API::
 
-    bottle.run(server='gae') # No need for a host or port setting.
+    py3web.run(server='gae') # No need for a host or port setting.
 
 It is always a good idea to let GAE serve static files directly. Here is example for a working  ``app.yaml``::
 
@@ -197,9 +197,9 @@ Lighttpd example::
 Good old CGI
 ================================================================================
 
-A CGI server starts a new process for each request. This adds a lot of overhead but is sometimes the only option, especially on cheap hosting packages. The `cgi` server adapter does not actually start a CGI server, but transforms your bottle application into a valid CGI application::
+A CGI server starts a new process for each request. This adds a lot of overhead but is sometimes the only option, especially on cheap hosting packages. The `cgi` server adapter does not actually start a CGI server, but transforms your py3web application into a valid CGI application::
 
-    bottle.run(server='cgi')
+    py3web.run(server='cgi')
 
 
 

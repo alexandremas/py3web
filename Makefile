@@ -32,22 +32,9 @@ docs:
 test:
 	python test/testall.py
 
-test_all: test_25 test_26 test_27 test_31 test_32 test_33
+test_all: test_33
 
-test_25:
-	python2.5 test/testall.py
 
-test_26:
-	python2.6 test/testall.py
-
-test_27:
-	python2.7 test/testall.py
-
-test_31:
-	python3.1 test/testall.py
-
-test_32:
-	python3.2 test/testall.py
 
 test_33:
 	python3.3 test/testall.py

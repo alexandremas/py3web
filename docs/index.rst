@@ -1,5 +1,5 @@
 .. highlight:: python
-.. currentmodule:: bottle
+.. currentmodule:: py3web
 
 .. _mako: http://www.makotemplates.org/
 .. _cheetah: http://www.cheetahtemplate.org/
@@ -11,9 +11,9 @@
 .. _cherrypy: http://www.cherrypy.org/
 .. _WSGI: http://www.wsgi.org/wsgi/
 .. _Python: http://python.org/
-.. _testing: https://github.com/defnull/bottle/raw/master/bottle.py
-.. _issue_tracker: https://github.com/defnull/bottle/issues
-.. _PyPI: http://pypi.python.org/pypi/bottle
+.. _testing: https://github.com/defnull/py3web/raw/master/py3web.py
+.. _issue_tracker: https://github.com/defnull/py3web/issues
+.. _PyPI: http://pypi.python.org/pypi/py3web
 
 ============================
 Bottle: Python Web Framework
@@ -27,11 +27,11 @@ Bottle is a fast, simple and lightweight WSGI_ micro web-framework for Python_. 
 * **Utilities:** Convenient access to form data, file uploads, cookies, headers and other HTTP-related metadata.
 * **Server:** Built-in HTTP development server and support for paste_, fapws3_, bjoern_, `Google App Engine <http://code.google.com/intl/en-US/appengine/>`_, cherrypy_ or any other WSGI_ capable HTTP server.
 
-.. rubric:: Example: "Hello World" in a bottle
+.. rubric:: Example: "Hello World" in a py3web
 
 ::
 
-  from bottle import route, run, template
+  from py3web import route, run, template
 
   @route('/hello/<name>')
   def index(name='World'):
@@ -45,13 +45,13 @@ Run this script or paste it into a Python console, then point your browser to `<
 
 .. _download:
 
-.. __: https://github.com/defnull/bottle/raw/master/bottle.py
+.. __: https://github.com/defnull/py3web/raw/master/py3web.py
 
-Install the latest stable release via PyPI_ (``easy_install -U bottle``) or download `bottle.py`__ (unstable) into your project directory. There are no hard [1]_ dependencies other than the Python standard library. Bottle runs with **Python 2.5+ and 3.x**.
+Install the latest stable release via PyPI_ (``easy_install -U py3web``) or download `py3web.py`__ (unstable) into your project directory. There are no hard [1]_ dependencies other than the Python standard library. Bottle runs with **Python 2.5+ and 3.x**.
 
 User's Guide
 ===============
-Start here if you want to learn how to use the bottle framework for web development. If you have any questions not answered here, feel free to ask the `mailing list <mailto:bottlepy@googlegroups.com>`_.
+Start here if you want to learn how to use the py3web framework for web development. If you have any questions not answered here, feel free to ask the `mailing list <mailto:py3webpy@googlegroups.com>`_.
 
 .. toctree::
    :maxdepth: 2
@@ -80,7 +80,7 @@ A collection of articles, guides and HOWTOs.
 Development and Contribution
 ============================
 
-These chapters are intended for developers interested in the bottle development and release workflow.
+These chapters are intended for developers interested in the py3web development and release workflow.
 
 .. toctree::
    :maxdepth: 2
@@ -104,7 +104,7 @@ Code and documentation are available according to the MIT License:
   :literal:
 
 The Bottle logo however is *NOT* covered by that license. It is allowed to
-use the logo as a link to the bottle homepage or in direct context with
+use the logo as a link to the py3web homepage or in direct context with
 the unmodified library. In all other cases please ask first.
 
 .. rubric:: Footnotes
