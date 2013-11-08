@@ -21,7 +21,7 @@ License: MIT (see LICENSE for details)
 
 """
 
-from __future__ import with_statement
+
 
 __author__ = 'Alexandre Andrade'
 __version__ = '0.O.02-dev'
@@ -51,15 +51,8 @@ from tempfile import TemporaryFile
 from traceback import format_exc, print_exc
 from inspect import getargspec
 
-try: from simplejson import dumps as json_dumps, loads as json_lds
-except ImportError: # pragma: no cover
-    try: from json import dumps as json_dumps, loads as json_lds
-    except ImportError:
-        try: from django.utils.simplejson import dumps as json_dumps, loads as json_lds
-        except ImportError:
-            def json_dumps(data):
-                raise ImportError("JSON support requires Python 2.6 or simplejson.")
-            json_lds = json_dumps
+from json import dumps as json_dumps, loads as json_lds
+
 
 
 
