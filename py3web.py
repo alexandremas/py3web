@@ -2917,6 +2917,7 @@ def run(app=None, server='wsgiref', host='127.0.0.1', port=8080,
                 if p.poll() != 3:
                     if os.path.exists(lockfile): os.unlink(lockfile)
                     sys.exit(p.poll())
+            _stdout('Working at reloader mode. To alter to development mode, use run( development = False) in your code\n')
         except KeyboardInterrupt:
             pass
         finally:
@@ -3105,72 +3106,6 @@ class BaseTemplate(object):
         raise NotImplementedError
 
 
-class MakoTemplate(BaseTemplate):
-    def prepare(self, **options):
-        from mako.template import Template
-        from mako.lookup import TemplateLookup
-        options.update({'input_encoding':self.encoding})
-        options.setdefault('format_exceptions', bool(DEBUG))
-        lookup = TemplateLookup(directories=self.lookup, **options)
-        if self.source:
-            self.tpl = Template(self.source, lookup=lookup, **options)
-        else:
-            self.tpl = Template(uri=self.name, filename=self.filename, lookup=lookup, **options)
-
-    def render(self, *args, **kwargs):
-        for dictarg in args: kwargs.update(dictarg)
-        _defaults = self.defaults.copy()
-        _defaults.update(kwargs)
-        return self.tpl.render(**_defaults)
-
-
-class CheetahTemplate(BaseTemplate):
-    def prepare(self, **options):
-        from Cheetah.Template import Template
-        self.context = threading.local()
-        self.context.vars = {}
-        options['searchList'] = [self.context.vars]
-        if self.source:
-            self.tpl = Template(source=self.source, **options)
-        else:
-            self.tpl = Template(file=self.filename, **options)
-
-    def render(self, *args, **kwargs):
-        for dictarg in args: kwargs.update(dictarg)
-        self.context.vars.update(self.defaults)
-        self.context.vars.update(kwargs)
-        out = str(self.tpl)
-        self.context.vars.clear()
-        return out
-
-
-class Jinja2Template(BaseTemplate):
-    def prepare(self, filters=None, tests=None, **kwargs):
-        from jinja2 import Environment, FunctionLoader
-        if 'prefix' in kwargs: # TODO: to be removed after a while
-            raise RuntimeError('The keyword argument `prefix` has been removed. '
-                'Use the full jinja2 environment name line_statement_prefix instead.')
-        self.env = Environment(loader=FunctionLoader(self.loader), **kwargs)
-        if filters: self.env.filters.update(filters)
-        if tests: self.env.tests.update(tests)
-        if self.source:
-            self.tpl = self.env.from_string(self.source)
-        else:
-            self.tpl = self.env.get_template(self.filename)
-
-    def render(self, *args, **kwargs):
-        for dictarg in args: kwargs.update(dictarg)
-        _defaults = self.defaults.copy()
-        _defaults.update(kwargs)
-        return self.tpl.render(**_defaults)
-
-    def loader(self, name):
-        fname = self.search(name, self.lookup)
-        if not fname: return
-        with open(fname, "rb") as f:
-            return f.read().decode(self.encoding)
-
-
 class SimpleTemplate(BaseTemplate):
 
     def prepare(self, escape_func=html_escape, noescape=False, syntax=None, **ka):
@@ -3188,7 +3123,12 @@ class SimpleTemplate(BaseTemplate):
 
     @cached_property
     def code(self):
-        source = self.source or open(self.filename, 'rb').read()
+        if self.source:
+            source = self.source
+        else:
+            file = open(self.filename, 'rb')
+            source = file.read()
+            file.close()
         try:
             source, encoding = touni(source), 'utf8'
         except UnicodeError:
@@ -3418,10 +3358,6 @@ def template(*args, **kwargs):
     for dictarg in args[1:]: kwargs.update(dictarg)
     return TEMPLATES[tplid].render(kwargs)
 
-mako_template = functools.partial(template, template_adapter=MakoTemplate)
-cheetah_template = functools.partial(template, template_adapter=CheetahTemplate)
-jinja2_template = functools.partial(template, template_adapter=Jinja2Template)
-
 
 def view(tpl_name, **defaults):
     ''' Decorator: renders a template for a handler.
@@ -3446,13 +3382,6 @@ def view(tpl_name, **defaults):
             return result
         return wrapper
     return decorator
-
-mako_view = functools.partial(view, template_adapter=MakoTemplate)
-cheetah_view = functools.partial(view, template_adapter=CheetahTemplate)
-jinja2_view = functools.partial(view, template_adapter=Jinja2Template)
-
-
-
 
 
 
